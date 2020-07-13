@@ -1,4 +1,4 @@
-package View_Controller;
+package Model;
 
 
 public class Customer {
@@ -6,18 +6,18 @@ public class Customer {
     private String customerName;
     private String address;
     private String city;
-    private String zipCode;
+    private String postalCode;
     private String country;
     private String phone;
     
     public Customer() {}
 
-    public Customer(int customerId, String customerName, String address, String city, String zipCode, String country, String phone) {
+    public Customer(int customerId, String customerName, String address, String city, String postalCode, String country, String phone) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.city = city;
-        this.zipCode = zipCode;
+        this.postalCode = postalCode;
         this.country = country;
         this.phone = phone;
     }
@@ -38,8 +38,8 @@ public class Customer {
         return city;
     }
 
-    public String getzipCode() {
-        return zipCode;
+    public String getpostalCode() {
+        return postalCode;
     }
 
     public String getCountry() {
@@ -70,8 +70,8 @@ public class Customer {
         this.country = country;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setpostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public void setPhone(String phone) {

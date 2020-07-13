@@ -1,4 +1,4 @@
 package View_Controller;
 
-public class Appointments {
+public class CustomerTable {
 }

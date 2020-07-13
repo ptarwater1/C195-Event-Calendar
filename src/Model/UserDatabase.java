@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class UserDatabase {
     private static User activeUser;
 
-    public User getActiveUser() {
+    public static User getActiveUser() {
         return activeUser;
     }
 
