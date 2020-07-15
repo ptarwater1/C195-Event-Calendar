@@ -5,7 +5,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utils.Database;
 
-    public class EventCalendar extends Application {
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class EventCalendar extends Application {
 
         @Override
         public void start(Stage stage) throws Exception{
@@ -15,8 +19,11 @@ import utils.Database;
             stage.show();
         }
 
-        public static void main(String[] args) {
-            Database.startConnection();
+        public static void main(String[] args) throws SQLException {
+
+            Connection conn = Database.startConnection();
+
             launch(args);
+            Database.disconnect();
         }
     }

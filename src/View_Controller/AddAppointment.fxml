@@ -15,7 +15,7 @@
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+        <Button fx:id="addApptBack" contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
             <font>
                 <Font size="18.0" />
             </font>
@@ -60,18 +60,18 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Save">
+      <Button fx:id="addApptSave" contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Save">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <DatePicker layoutX="300.0" layoutY="140.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox layoutX="300.0" layoutY="180.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox layoutX="300.0" layoutY="220.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="260.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="380.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <DatePicker fx:id="addApptDate" layoutX="300.0" layoutY="140.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptStartTime" layoutX="300.0" layoutY="180.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptEndTime" layoutX="300.0" layoutY="220.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptLocation" layoutX="300.0" layoutY="260.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptTitle" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptType" layoutX="300.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptContact" layoutX="300.0" layoutY="380.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptCustomer" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
     </children>
 </AnchorPane>
