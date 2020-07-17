@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Model.Appointments">
+<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentsTable">
    <children>
       <TabPane layoutX="5.0" layoutY="76.0" prefHeight="424.0" prefWidth="840.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -26,17 +25,17 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button contentDisplay="CENTER" layoutX="690.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+      <Button contentDisplay="CENTER" layoutX="690.0" layoutY="550.0" mnemonicParsing="false" onAction="#backApptTableEvent" prefHeight="40.0" prefWidth="120.0" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="390.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Modify">
+      <Button contentDisplay="CENTER" layoutX="390.0" layoutY="550.0" mnemonicParsing="false" onAction="#modifyApptEvent" prefHeight="40.0" prefWidth="120.0" text="Modify">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="240.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Add">
+      <Button fx:id="apptsTableAddApptButton" contentDisplay="CENTER" layoutX="240.0" layoutY="550.0" mnemonicParsing="false" onAction="#addApptEvent" prefHeight="40.0" prefWidth="120.0" text="Add">
          <font>
             <Font size="18.0" />
          </font>

@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddAppointment">
+<AnchorPane fx:id="addApptAnchorPane" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddAppointment">
     <children>
         <Label alignment="CENTER" layoutX="160.0" prefHeight="100.0" prefWidth="380.0" text="Add Appointment">
             <font>
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button fx:id="addApptBack" contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+        <Button fx:id="addApptBackButton" contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" onAction="#addApptBackEvent" prefHeight="40.0" prefWidth="120.0" text="Back">
             <font>
                 <Font size="18.0" />
             </font>
@@ -25,37 +25,27 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="140.0" prefHeight="25.0" prefWidth="90.0" text="Date">
+      <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="Date">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="180.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
+      <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="220.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
+      <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="260.0" prefHeight="25.0" prefWidth="90.0" text="Location">
+      <Label layoutX="180.0" layoutY="350.0" prefHeight="25.0" prefWidth="90.0" text="Location">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="Title">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="180.0" layoutY="340.0" prefHeight="25.0" prefWidth="90.0" text="Type">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="180.0" layoutY="380.0" prefHeight="25.0" prefWidth="90.0" text="Contact">
+      <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Type">
          <font>
             <Font size="16.0" />
          </font>
@@ -65,13 +55,11 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <DatePicker fx:id="addApptDate" layoutX="300.0" layoutY="140.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox fx:id="addApptStartTime" layoutX="300.0" layoutY="180.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox fx:id="addApptEndTime" layoutX="300.0" layoutY="220.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptLocation" layoutX="300.0" layoutY="260.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptTitle" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptType" layoutX="300.0" layoutY="340.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptContact" layoutX="300.0" layoutY="380.0" prefHeight="25.0" prefWidth="200.0" />
+      <DatePicker fx:id="addApptDate" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptStartTime" layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptEndTime" layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptLocation" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptType" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="addApptCustomer" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
     </children>
 </AnchorPane>

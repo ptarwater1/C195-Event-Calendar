@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Model.Customer">
+<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.CustomerTable">
    <children>
-      <Button contentDisplay="CENTER" layoutX="700.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+      <Button contentDisplay="CENTER" layoutX="700.0" layoutY="550.0" mnemonicParsing="false" onAction="#backCustTableEvent" prefHeight="40.0" prefWidth="120.0" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Modify">
+      <Button contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" onAction="#modifyCustTableEvent" prefHeight="40.0" prefWidth="120.0" text="Modify">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="250.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Add">
+      <Button contentDisplay="CENTER" layoutX="250.0" layoutY="550.0" mnemonicParsing="false" onAction="#addCustTableEvent" prefHeight="40.0" prefWidth="120.0" text="Add">
          <font>
             <Font size="18.0" />
          </font>
@@ -36,21 +36,13 @@
       </Label>
       <TableView layoutX="5.0" layoutY="100.0" prefHeight="400.0" prefWidth="1040.0">
          <columns>
-            <TableColumn prefWidth="140.0" text="ID" />
-            <TableColumn prefWidth="150.0" text="Name" />
-            <TableColumn prefWidth="150.0" text="Address" />
-            <TableColumn prefWidth="150.0" text="City" />
-            <TableColumn prefWidth="150.0" text="Zip Code" />
-            <TableColumn prefWidth="150.0" text="Country" />
-            <TableColumn prefWidth="150.0" text="Phone" />
+            <TableColumn fx:id="idColumn" prefWidth="150.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+            <TableColumn fx:id="addressColumn" prefWidth="200.0" text="Address" />
+            <TableColumn fx:id="cityColumn" prefWidth="150.0" text="City" />
+            <TableColumn fx:id="countryColumn" prefWidth="150.0" text="Country" />
+            <TableColumn fx:id="phoneColumn" prefWidth="200.0" text="Phone" />
          </columns>
       </TableView>
-      <Button contentDisplay="CENTER" layoutX="100.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Add Appt">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Label layoutX="385.0" layoutY="525.0" prefHeight="17.0" prefWidth="150.0" text="Update the customer table." />
-      <Label layoutX="35.0" layoutY="525.0" prefHeight="17.0" prefWidth="193.0" text="Add a new customer appointment." />
    </children>
 </AnchorPane>

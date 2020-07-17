@@ -14,7 +14,7 @@
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+        <Button contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" onAction="#addCustBackEvent" prefHeight="40.0" prefWidth="120.0" text="Back">
             <font>
                 <Font size="18.0" />
             </font>
@@ -24,22 +24,17 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="140.0" prefHeight="25.0" prefWidth="90.0" text="Address">
+        <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Address">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="180.0" prefHeight="25.0" prefWidth="90.0" text="City">
+        <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="City">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="220.0" prefHeight="25.0" prefWidth="90.0" text="Country">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-        <Label layoutX="180.0" layoutY="260.0" prefHeight="25.0" prefWidth="90.0" text="Zip Code">
+        <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="Country">
             <font>
                 <Font size="16.0" />
             </font>
@@ -54,11 +49,14 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <ComboBox layoutX="300.0" layoutY="180.0" prefHeight="25.0" prefWidth="200.0" />
-        <TextField layoutX="300.0" layoutY="260.0" prefHeight="25.0" prefWidth="200.0" />
-        <TextField layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
-        <TextField layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="140.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="220.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox fx:id="addCustCity" layoutX="300.0" layoutY="200.0" onAction="#chooseCountry" prefHeight="25.0" prefWidth="200.0" />
+        <TextField fx:id="addCustPhone" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+        <TextField fx:id="addCustName" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addCustAddress" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label fx:id="addCustCountry" layoutX="300.0" layoutY="254.0" prefHeight="17.0" prefWidth="200.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

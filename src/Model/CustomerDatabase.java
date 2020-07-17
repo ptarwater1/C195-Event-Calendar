@@ -35,7 +35,7 @@ public class CustomerDatabase {
         customersList.clear();
         try {
             Statement statement = Database.getConnection().createStatement();
-            String query = "SELECT customer.customerId, customer.customerName, address.address, city.city, address.postalCode, address.phone"
+            String query = "SELECT customer.customerId, customer.customerName, address.address, city.city, address.phone"
                     + " FROM customer INNER JOIN address ON customer.addressId = address.addressId "
                     + "INNER JOIN city ON address.cityId = city.cityId";
             ResultSet results = statement.executeQuery(query);
@@ -45,7 +45,6 @@ public class CustomerDatabase {
                         results.getString("customerName"),
                         results.getString("address"),
                         results.getString("city"),
-                        results.getString("postalCode"),
                         results.getString("country"),
                         results.getString("phone"));
                 customersList.add(customer);
@@ -59,10 +58,10 @@ public class CustomerDatabase {
     }
 
     // Saves new Customer to Database
-    public static boolean saveCustomer(String name, String address, int city, String postalCode, String country, String phone) {
+    public static boolean saveCustomer(String name, String address, int city, String country, String phone) {
         try {
             Statement statement = Database.getConnection().createStatement();
-            String queryOne = "INSERT INTO address SET address='" + address + "', city=" + city + ", postalCode='" + postalCode + "', country='" + country + "', phone='" + phone + "' ";
+            String queryOne = "INSERT INTO address SET address='" + address + "', city=" + city + ", country='" + country + "', phone='" + phone + "' ";
             int updateOne = statement.executeUpdate(queryOne);
             if(updateOne == 1) {
                 String queryTwo = "INSERT INTO customer SET customerName='" + name + "', address=" + address;
@@ -78,10 +77,10 @@ public class CustomerDatabase {
     }
 
     // Update existing Customer in Database
-    public static boolean updateCustomer(int id, String customerName, String address, String city, String postalCode, String country, String phone) {
+    public static boolean updateCustomer(int id, String customerName, String address, String city, String country, String phone) {
         try {
             Statement statement = Database.getConnection().createStatement();
-            String queryOne = "UPDATE address SET address='" + address + "', city=" + city + ", postalCode='" + postalCode + "', country='" + country + "', phone='" + phone + "' "
+            String queryOne = "UPDATE address SET address='" + address + "', city=" + city + ", country='" + country + "', phone='" + phone + "' "
                     + "WHERE address=" + id;
             int updateOne = statement.executeUpdate(queryOne);
             if(updateOne == 1) {

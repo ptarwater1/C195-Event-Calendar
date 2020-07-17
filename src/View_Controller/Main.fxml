@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.Main">
    <children>
-      <Button layoutX="170.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="370.0" text="Customer List">
+      <Button fx:id="custTableButton" layoutX="170.0" layoutY="200.0" mnemonicParsing="false" onAction="#customerTableEvent" prefHeight="40.0" prefWidth="370.0" text="Customer List">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -16,22 +16,17 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="170.0" layoutY="280.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="370.0" text="Appointment List">
+      <Button fx:id="apptsTableButton" layoutX="170.0" layoutY="280.0" mnemonicParsing="false" onAction="#appointmentsTableEvent" prefHeight="40.0" prefWidth="370.0" text="Appointment List">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="170.0" layoutY="360.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="370.0" text="View_Controller Report">
+      <Button fx:id="reportsButton" layoutX="170.0" layoutY="360.0" mnemonicParsing="false" onAction="#reportsEvent" prefHeight="40.0" prefWidth="370.0" text="Reports">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="555.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="131.0" text="Exit">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="170.0" layoutY="440.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="370.0" text="View_Controller Log">
+      <Button fx:id="exitButton" layoutX="555.0" layoutY="550.0" mnemonicParsing="false" onAction="#exitEvent" prefHeight="40.0" prefWidth="131.0" text="Exit">
          <font>
             <Font size="18.0" />
          </font>
