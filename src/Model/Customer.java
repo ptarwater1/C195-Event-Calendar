@@ -6,18 +6,16 @@ public class Customer {
     private String customerName;
     private String address;
     private String city;
-    private String postalCode;
     private String country;
     private String phone;
     
     public Customer() {}
 
-    public Customer(int customerId, String customerName, String address, String city, String postalCode, String country) {
+    public Customer(int customerId, String customerName, String address, String city, String country, String phone) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.city = city;
-        this.postalCode = postalCode;
         this.country = country;
         this.phone = phone;
     }
@@ -36,10 +34,6 @@ public class Customer {
 
     public String getCity() {
         return city;
-    }
-
-    public String getpostalCode() {
-        return postalCode;
     }
 
     public String getCountry() {
@@ -68,10 +62,6 @@ public class Customer {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public void setpostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     public void setPhone(String phone) {

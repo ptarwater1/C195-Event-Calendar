@@ -1,35 +1,49 @@
 package View_Controller;
 
+import Model.Customer;
+import Model.CustomerDatabase;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import utils.Database;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class CustomerTable {
-
-    @FXML
-    private TableColumn<?, ?> idColumn;
-
-    @FXML
-    private TableColumn<?, ?> nameColumn;
-
-    @FXML
-    private TableColumn<?, ?> addressColumn;
+public class CustomerTable implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> cityColumn;
+    private TableView<Customer> custTableView;
 
     @FXML
-    private TableColumn<?, ?> countryColumn;
+    private TableColumn<Customer, Integer> idColumn;
 
     @FXML
-    private TableColumn<?, ?> phoneColumn;
+    private TableColumn<Customer, String> nameColumn;
+
+    @FXML
+    private TableColumn<Customer, String> addressColumn;
+
+    @FXML
+    private TableColumn<Customer, String> cityColumn;
+
+    @FXML
+    private TableColumn<Customer, String> countryColumn;
+
+    @FXML
+    private TableColumn<Customer, String> phoneColumn;
 
     @FXML
     void addCustTableEvent(ActionEvent event) throws IOException
@@ -58,6 +72,72 @@ public class CustomerTable {
             stage.show();
 
         }
+
+
+    @FXML
+    void deleteCustTableEvent(ActionEvent event)
+    {
+     Alert alert = new Alert(Alert.AlertType.CONFIRMATION,("Delete this customer?"));
+     alert.setTitle("Confirm Delete.");
+     Optional<ButtonType> result = alert.showAndWait();
+     if(result.isPresent() && result.get() == ButtonType.OK) {
+
+         ObservableList<Customer> allCustomers, singleCustomer;
+         allCustomers = custTableView.getItems();
+         singleCustomer = custTableView.getSelectionModel().getSelectedItems();
+         singleCustomer.forEach(allCustomers::remove);
+         selectedCustomer = custTableView.getSelectionModel().getSelectedItem();
+
+         deleteCustomer(selectedCustomer.getCustomerId());
+
+
+        }
+    }
+
+    private Customer selectedCustomer;
+
+    public static void deleteCustomer(int selectedId) {
+
+        ++selectedId;
+
+        try {
+            Statement statement = Database.getConnection().createStatement();
+            String deleteCustomer = "DELETE FROM customer WHERE customerId =" + selectedId;
+            int deletedCustomer = statement.executeUpdate(deleteCustomer);
+
+        if(deletedCustomer == 1) {
+            String deleteAddress = "DELETE FROM address WHERE addressId =" + selectedId;
+            int deletedAddress = statement.executeUpdate(deleteAddress);
+
+            if(deletedAddress == 1) {
+                System.out.println("Deletion successful.");
+            }
+        }
+            } catch(SQLException e) {
+            System.out.println("Error " + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        CustomerDatabase.getAllCustomersTableList().clear();
+        custTableView.setItems(CustomerDatabase.getAllCustomersTableList());
+
+        CustomerDatabase populateCustomers = new CustomerDatabase();
+        populateCustomers.populateCustomerTable();
+
+        //USE OF LAMBDAS TO INCREASE EFFICIENCY OF POPULATING CUSTOMER TABLE
+
+        custTableView.getSelectionModel();
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        nameColumn.setCellValueFactory(customer -> new SimpleStringProperty(customer.getValue().getCustomerName()));
+        addressColumn.setCellValueFactory(customer -> new SimpleStringProperty(customer.getValue().getAddress()));
+        cityColumn.setCellValueFactory(customer -> new SimpleStringProperty(customer.getValue().getCity()));
+        countryColumn.setCellValueFactory(customer -> new SimpleStringProperty(customer.getValue().getCountry()));
+        phoneColumn.setCellValueFactory(customer -> new SimpleStringProperty(customer.getValue().getPhone()));
+    }
 
 }
 

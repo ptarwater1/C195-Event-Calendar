@@ -72,7 +72,7 @@ public class Main implements Initializable {
     //Appointment in the next 15 minutes alert setup
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Appointments appointment = AppointmentDatabase.appt15Min();
+       /* Appointments appointment = AppointmentDatabase.appt15Min();
         if(appointment != null) {
             Customer customer = CustomerDatabase.getCustomer(appointment.getCustomerId());
             String text = String.format("You have a %s appointment with %s at %s",
@@ -84,7 +84,7 @@ public class Main implements Initializable {
             alert.setHeaderText("Appointment in Next 15 Minutes");
             alert.setContentText(text);
             alert.showAndWait();
-        }
+        } */
     }
 
 

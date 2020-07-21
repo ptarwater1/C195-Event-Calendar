@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utils.Database;
+import utils.DatabaseQuery;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,6 +25,7 @@ public class EventCalendar extends Application {
             Connection conn = Database.startConnection();
 
             launch(args);
+
             Database.disconnect();
         }
     }
