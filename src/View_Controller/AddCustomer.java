@@ -6,12 +6,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utils.Database;
 
+import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -40,14 +46,88 @@ public class AddCustomer implements Initializable {
     }
 
     @FXML
-    void addCustSaveEvent(ActionEvent event) {
+    void addCustSaveEvent(ActionEvent event)  throws IOException {
 
+        int customerId = 1;
+
+        for(Customer customer : CustomerDatabase.allCustomersTableList) {
+
+            if(customer.getCustomerId() > customerId)
+
+                customerId = customer.getCustomerId();
+
+        }
+
+        int addressId = 1;
+        int custId = customerId;
+        int customerCity = addCustCity.getSelectionModel().getSelectedIndex() + 1;
+        String customerCityChoice = addCustCity.getSelectionModel().getSelectedItem();
+
+        customerId = ++customerId;
+        String customerName = addCustName.getText();
+        String customerAddress = addCustAddress.getText();
+        String customerCityChoiceValue = customerCityChoice;
+        String customerCountry = addCustCountry.getText();
+        String customerPhone = addCustPhone.getText();
+
+        try {
+
+
+
+            Statement statement = Database.getConnection().createStatement();
+
+            ResultSet addressResultSet = statement.executeQuery("SELECT MAX(addressId) FROM address");
+            if(addressResultSet.next()){
+                addressId = addressResultSet.getInt(1);
+                addressId++;
+            }
+
+            ResultSet customerResultSet = statement.executeQuery("SELECT MAX(customerId) FROM customer");
+            if(customerResultSet.next()){
+                custId = customerResultSet.getInt(1);
+                custId++;
+            }
+
+            String addressQuery = "INSERT INTO address SET addressId=" + addressId + ", address='"
+                    + customerAddress + "', address2='', phone='" + customerPhone + "', postalCode='', cityId= "
+                    + customerCity + ", createDate=NOW(), createdBy='', lastUpdate=NOW(), lastUpdateBy=''";
+
+            int addressExecuteUpdate = statement.executeUpdate(addressQuery);
+
+            if(addressExecuteUpdate == 1) {
+
+                String customerQuery = "INSERT INTO customer SET customerId="+ customerId + ", customerName='"
+                        + customerName + "', addressId=" + addressId +", active=1, createDate=NOW(), createdBy='', lastUpdate=NOW(), lastUpdateBy=''";
+
+                int customerExecuteUpdate = statement.executeUpdate(customerQuery);
+
+                if(customerExecuteUpdate == 1) {
+                    System.out.println("Success.");
+
+                }
+            }
+        }
+
+        catch(SQLException e) {
+            System.out.println("Error " + e.getMessage());
+        }
+
+        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(customerCityChoiceValue) && verifyPhone(customerPhone)) {
+
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerCityChoiceValue, customerCountry, customerPhone);
+            CustomerDatabase.addCustomer(customer);
+
+            Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/CustomerTable.fxml"));
+            stage.setScene(new Scene((Parent) scene));
+            stage.close();
+        }
 
     }
 
-    //Set choices for cities and corresponding countries
+    //Set choices for city selections
     ObservableList<String> cities = FXCollections.observableArrayList("Phoenix", "New York", "London");
-    ObservableList<String> countries = FXCollections.observableArrayList("United States", "United Kingdom");
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,25 +144,7 @@ public class AddCustomer implements Initializable {
         } else addCustCountry.setText("United Kingdom");
 
     }
-
-
-    public boolean saveCustomer() {
-        String customerName = addCustName.getText();
-        String address = addCustAddress.getText();
-        String city = addCustCity.getSelectionModel().getSelectedItem();
-        String country = addCustCountry.getText();
-        String phone = addCustPhone.getText();
-        if(!verifyName(customerName)||!verifyAddress(address)||!verifyCity(city)||!verifyPhone(phone)){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Check that all required information is entered.");
-            alert.showAndWait();
-            return false;
-        } else {
-            return true;
-        }
-    }
+    
 
     public boolean verifyName(String name) {
         if(name.isEmpty()) {

@@ -44,19 +44,25 @@
                 <Font size="16.0" />
             </font>
         </Label>
-        <Button contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Save">
+        <Button contentDisplay="CENTER" layoutX="400.0" layoutY="550.0" mnemonicParsing="false" onAction="#modifyCustSaveEvent" prefHeight="40.0" prefWidth="120.0" text="Save">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <ComboBox fx:id="modifyCustCity" layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox fx:id="modifyCustCity" layoutX="300.0" layoutY="200.0" onAction="#chooseCountry" prefHeight="25.0" prefWidth="200.0" />
         <TextField fx:id="modifyCustPhone" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
         <TextField fx:id="modifyCustName" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="modifyCustAddress" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label fx:id="modifyCustCountry" layoutX="300.0" layoutY="253.0" prefHeight="17.0" prefWidth="200.0">
+      <Label fx:id="modifyCustCountry" layoutX="300.0" layoutY="250.0" prefHeight="17.0" prefWidth="200.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <Label layoutX="180.0" layoutY="350.0" prefHeight="25.0" prefWidth="90.0" text="Id">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="modifyCustId" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
     </children>
 </AnchorPane>

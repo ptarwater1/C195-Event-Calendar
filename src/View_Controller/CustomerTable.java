@@ -63,16 +63,32 @@ public class CustomerTable implements Initializable {
     }
 
     @FXML
-    void modifyCustTableEvent(ActionEvent event) throws IOException
-        {
+    void modifyCustTableEvent(ActionEvent event) {
+
+        //gets selection from customer table to modify
+        Customer customerToModify = custTableView.getSelectionModel().getSelectedItem();
+            if(customerToModify == null){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("No customer selected.");
+                alert.setContentText("Select a customer to modify.");
+                alert.showAndWait();
+            }
+
+        custIndexMod = CustomerDatabase.getAllCustomersTableList().indexOf(customerToModify);
+
+        try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyCustomer.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
+        }
+        catch (IOException e) {
+            e.getMessage();
         }
 
+    }
 
     @FXML
     void deleteCustTableEvent(ActionEvent event)
@@ -118,6 +134,11 @@ public class CustomerTable implements Initializable {
         }
     }
 
+    public static int getCustIndexToMod(){
+        return custIndexMod;
+    }
+
+    private static int custIndexMod;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
