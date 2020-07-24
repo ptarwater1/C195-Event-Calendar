@@ -20,27 +20,27 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Label layoutX="180.0" layoutY="100.0" prefHeight="25.0" prefWidth="90.0" text="Type">
+        <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Type">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="Location">
+        <Label layoutX="180.0" layoutY="350.0" prefHeight="25.0" prefWidth="90.0" text="Location">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="Date">
+        <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="Date">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
+        <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-        <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
+        <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
             <font>
                 <Font size="16.0" />
             </font>
@@ -50,10 +50,22 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <DatePicker layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
-        <ComboBox layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
+        <DatePicker layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
         <ComboBox layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
-        <TextField layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
+        <TextField layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Location">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField layoutX="310.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="180.0" layoutY="100.0" prefHeight="25.0" prefWidth="90.0" text="Customer">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

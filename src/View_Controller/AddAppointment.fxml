@@ -61,5 +61,11 @@
       <TextField fx:id="addApptLocation" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="addApptType" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="addApptCustomer" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Contact">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="addApptLocation1" layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
     </children>
 </AnchorPane>

@@ -11,16 +11,42 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AppointmentsTable">
    <children>
-      <TabPane layoutX="5.0" layoutY="76.0" prefHeight="424.0" prefWidth="840.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="5.0" layoutY="76.0" prefHeight="425.0" prefWidth="1036.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Monthly">
+          <Tab fx:id="tabMonthly" text="Monthly">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewMonthly" prefHeight="400.0" prefWidth="1036.0">
+                           <columns>
+                              <TableColumn fx:id="monthlyCustomerName" prefWidth="148.0" text="Customer Name" />
+                              <TableColumn fx:id="monthlyContact" prefWidth="148.0" text="Contact" />
+                              <TableColumn fx:id="monthlyTitle" prefWidth="148.0" text="Title" />
+                              <TableColumn fx:id="monthlyType" prefWidth="148.0" text="Type" />
+                              <TableColumn fx:id="monthlyLocation" prefWidth="148.0" text="Location" />
+                              <TableColumn fx:id="monthlyStart" prefWidth="148.0" text="Start Time" />
+                              <TableColumn fx:id="monthlyEnd" prefWidth="148.0" text="End Time" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
                </content>
           </Tab>
-          <Tab text="Weekly">
+          <Tab fx:id="tabWeekly" text="Weekly">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewWeekly" prefHeight="400.0" prefWidth="1036.0">
+                          <columns>
+                            <TableColumn fx:id="weeklyCustomerName" prefWidth="148.0" text="Customer Name" />
+                            <TableColumn fx:id="weeklyContact" prefWidth="148.0" text="Contact" />
+                              <TableColumn fx:id="weeklyTitle" prefWidth="148.0" text="Title" />
+                              <TableColumn fx:id="weeklyType" prefWidth="148.0" text="Type" />
+                              <TableColumn fx:id="weeklyLocation" prefWidth="148.0" text="Location" />
+                              <TableColumn fx:id="weeklyStart" prefWidth="148.0" text="Start Time" />
+                              <TableColumn fx:id="weeklyEnd" prefWidth="148.0" text="End Time" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
@@ -35,7 +61,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="apptsTableAddApptButton" contentDisplay="CENTER" layoutX="240.0" layoutY="550.0" mnemonicParsing="false" onAction="#addApptEvent" prefHeight="40.0" prefWidth="120.0" text="Add">
+      <Button contentDisplay="CENTER" layoutX="240.0" layoutY="550.0" mnemonicParsing="false" onAction="#addApptEvent" prefHeight="40.0" prefWidth="120.0" text="Add">
          <font>
             <Font size="18.0" />
          </font>
@@ -50,22 +76,5 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <TableView layoutX="850.0" layoutY="100.0" prefHeight="400.0" prefWidth="195.0">
-        <columns>
-          <TableColumn prefWidth="122.0" text="Customer" />
-          <TableColumn text="ID" />
-        </columns>
-      </TableView>
-      <TableView layoutX="5.0" layoutY="100.0" prefHeight="400.0" prefWidth="840.0">
-        <columns>
-          <TableColumn prefWidth="120.0" text="Customer Name" />
-          <TableColumn prefWidth="120.0" text="Contact" />
-            <TableColumn prefWidth="120.0" text="Title" />
-            <TableColumn prefWidth="120.0" text="Type" />
-            <TableColumn prefWidth="120.0" text="Location" />
-            <TableColumn prefWidth="120.0" text="Start Time" />
-            <TableColumn prefWidth="120.0" text="End Time" />
-        </columns>
-      </TableView>
    </children>
 </AnchorPane>
