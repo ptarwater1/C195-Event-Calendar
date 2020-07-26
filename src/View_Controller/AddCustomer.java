@@ -102,7 +102,7 @@ public class AddCustomer implements Initializable {
                 int customerExecuteUpdate = statement.executeUpdate(customerQuery);
 
                 if(customerExecuteUpdate == 1) {
-                    System.out.println("Success.");
+                    System.out.println("Successfully added customer.");
 
                 }
             }

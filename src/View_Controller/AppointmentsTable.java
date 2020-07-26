@@ -22,59 +22,86 @@ import java.util.ResourceBundle;
 
 public class AppointmentsTable implements Initializable {
 
-        @FXML
-        private Tab tabMonthly;
+    @FXML
+    private Tab tabMonthly;
 
-        @FXML
-        private TableView<Appointments> tableViewMonthly;
+    @FXML
+    private TableView<Appointments> tableViewMonthly;
 
-        @FXML
-        private TableColumn<Appointments,String> monthlyCustomerName;
+    @FXML
+    private TableColumn<Appointments,String> monthlyCustomerName;
 
-        @FXML
-        private TableColumn<Appointments,String> monthlyContact;
+    @FXML
+    private TableColumn<Appointments,String> monthlyContact;
 
-        @FXML
-        private TableColumn<Appointments,String>  monthlyTitle;
+    @FXML
+    private TableColumn<Appointments,String>  monthlyTitle;
 
-        @FXML
-        private TableColumn<Appointments,String>  monthlyType;
+    @FXML
+    private TableColumn<Appointments,String>  monthlyType;
 
-        @FXML
-        private TableColumn<Appointments,String>  monthlyLocation;
+    @FXML
+    private TableColumn<Appointments,String>  monthlyLocation;
 
-        @FXML
-        private TableColumn<Appointments,String>  monthlyStart;
+    @FXML
+    private TableColumn<Appointments,String>  monthlyStart;
 
-        @FXML
-        private TableColumn<Appointments,String>  monthlyEnd;
+    @FXML
+    private TableColumn<Appointments,String>  monthlyEnd;
 
-        @FXML
-        private Tab tabWeekly;
+    @FXML
+    private Tab tabWeekly;
 
-        @FXML
-        private TableView<Appointments> tableViewWeekly;
+    @FXML
+    private TableView<Appointments> tableViewWeekly;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyCustomerName;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyCustomerName;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyContact;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyContact;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyTitle;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyTitle;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyType;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyType;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyLocation;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyLocation;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyStart;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyStart;
 
-        @FXML
-        private TableColumn<Appointments,String>  weeklyEnd;
+    @FXML
+    private TableColumn<Appointments,String>  weeklyEnd;
+
+    @FXML
+    private Tab tabAll;
+
+    @FXML
+    private TableView<Appointments> tableViewAll;
+
+    @FXML
+    private TableColumn<Appointments,String> allCustomerName;
+
+    @FXML
+    private TableColumn<Appointments,String> allContact;
+
+    @FXML
+    private TableColumn<Appointments,String> allTitle;
+
+    @FXML
+    private TableColumn<Appointments,String> allType;
+
+    @FXML
+    private TableColumn<Appointments,String> allLocation;
+
+    @FXML
+    private TableColumn<Appointments,String> allStart;
+
+    @FXML
+    private TableColumn<Appointments,String> allEnd;
 
         @FXML
         void addApptEvent(ActionEvent event) throws IOException {
@@ -104,10 +131,14 @@ public class AppointmentsTable implements Initializable {
         public void initialize(URL url, ResourceBundle rb) {
 
             AppointmentDatabase.getAllAppointmentsTableList().clear();
-            tableViewMonthly.setItems(AppointmentDatabase.getAllAppointmentsTableList());
+            AppointmentDatabase.getMonthlyAppointmentsTableList().clear();
+            AppointmentDatabase.getWeeklyAppointmentsTableList().clear();
+            tableViewMonthly.setItems(AppointmentDatabase.getMonthlyAppointmentsTableList());
+            tableViewWeekly.setItems(AppointmentDatabase.getWeeklyAppointmentsTableList());
+            tableViewAll.setItems(AppointmentDatabase.getAllAppointmentsTableList());
 
-            AppointmentDatabase populateMonthlyAppointments = new AppointmentDatabase();
-            populateMonthlyAppointments.populateMonthlyAppointments();
+            AppointmentDatabase populateAllAppointments = new AppointmentDatabase();
+            populateAllAppointments.populateAllViewAppointments();
 
             tableViewMonthly.getSelectionModel();
             monthlyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -117,6 +148,30 @@ public class AppointmentsTable implements Initializable {
             monthlyLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
             monthlyStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
             monthlyEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
+
+            //AppointmentDatabase populateMonthlyAppointments = new AppointmentDatabase();
+            populateAllAppointments.populateMonthlyViewAppointments();
+
+            tableViewWeekly.getSelectionModel();
+            weeklyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            weeklyContact.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getContact()));
+            weeklyTitle.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getTitle()));
+            weeklyType.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getType()));
+            weeklyLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
+            weeklyStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
+            weeklyEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
+
+            populateAllAppointments.populateWeeklyViewAppointments();
+            tableViewAll.getSelectionModel();
+            allCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            allContact.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getContact()));
+            allTitle.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getTitle()));
+            allType.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getType()));
+            allLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
+            allStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
+            allEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
+            
+            
 
         }
 }

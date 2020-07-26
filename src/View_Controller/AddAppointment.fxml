@@ -20,32 +20,32 @@
                 <Font size="18.0" />
             </font>
         </Button>
-      <Label layoutX="180.0" layoutY="100.0" prefHeight="25.0" prefWidth="90.0" text="Customer">
+      <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Customer">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="Date">
+      <Label layoutX="180.0" layoutY="350.0" prefHeight="25.0" prefWidth="90.0" text="Date">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
+      <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="Start Time">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="250.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
+      <Label layoutX="180.0" layoutY="300.0" prefHeight="25.0" prefWidth="90.0" text="End Time">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="350.0" prefHeight="25.0" prefWidth="90.0" text="Location">
+      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Location">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="180.0" layoutY="150.0" prefHeight="25.0" prefWidth="90.0" text="Type">
+      <Label layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="90.0" text="Type">
          <font>
             <Font size="16.0" />
          </font>
@@ -55,17 +55,27 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <DatePicker fx:id="addApptDate" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox fx:id="addApptStartTime" layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
-      <ComboBox fx:id="addApptEndTime" layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptLocation" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptType" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="addApptCustomer" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Contact">
+      <DatePicker fx:id="addApptDate" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptStart" layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptEnd" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptLocation" layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptType" layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="addApptCustId" layoutX="300.0" layoutY="100.0" onAction="#chooseCustomerName" prefHeight="25.0" prefWidth="100.0" />
+      <Label layoutX="180.0" layoutY="450.0" prefHeight="25.0" prefWidth="90.0" text="Contact">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="addApptLocation1" layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="addApptContact" layoutX="300.0" layoutY="450.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="180.0" layoutY="100.0" prefHeight="25.0" prefWidth="90.0" text="Customer Id">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="addApptCustName" layoutX="300.0" layoutY="150.0" prefHeight="17.0" prefWidth="200.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

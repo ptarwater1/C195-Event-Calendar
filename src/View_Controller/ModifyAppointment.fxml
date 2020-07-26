@@ -50,18 +50,18 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <DatePicker layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
-        <ComboBox layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
-        <ComboBox layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
-        <TextField layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Location">
+        <DatePicker fx:id="modifyApptDate" layoutX="300.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox fx:id="modifyApptStart" layoutX="300.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox fx:id="modifyApptEnd" layoutX="300.0" layoutY="250.0" prefHeight="25.0" prefWidth="200.0" />
+        <ComboBox fx:id="modifyApptType" layoutX="300.0" layoutY="150.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="modifyApptLocation" layoutX="300.0" layoutY="350.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="180.0" layoutY="400.0" prefHeight="25.0" prefWidth="90.0" text="Contact">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="310.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="modifyApptContact" layoutX="300.0" layoutY="400.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="modifyApptCustName" layoutX="300.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="180.0" layoutY="100.0" prefHeight="25.0" prefWidth="90.0" text="Customer">
          <font>
             <Font size="16.0" />
