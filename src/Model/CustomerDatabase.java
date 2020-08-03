@@ -1,11 +1,9 @@
 package Model;
 
 
-import View_Controller.AddCustomer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utils.Database;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

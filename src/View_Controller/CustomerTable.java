@@ -1,5 +1,6 @@
 package View_Controller;
 
+
 import Model.Customer;
 import Model.CustomerDatabase;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utils.Database;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -91,8 +91,7 @@ public class CustomerTable implements Initializable {
     }
 
     @FXML
-    void deleteCustTableEvent(ActionEvent event)
-    {
+    void deleteCustTableEvent(ActionEvent event) {
      Alert alert = new Alert(Alert.AlertType.CONFIRMATION,("Delete this customer?"));
      alert.setTitle("Confirm Delete.");
      Optional<ButtonType> result = alert.showAndWait();

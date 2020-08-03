@@ -7,32 +7,26 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="900.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.Reports">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.Reports">
    <children>
-      <Label alignment="CENTER" layoutX="160.0" prefHeight="100.0" prefWidth="380.0" text="Reports">
+      <Label alignment="CENTER" layoutX="160.0" layoutY="-12.0" prefHeight="100.0" prefWidth="380.0" text="Reports">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" layoutX="550.0" layoutY="850.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Back">
+      <Button contentDisplay="CENTER" layoutX="550.0" layoutY="550.0" mnemonicParsing="false" onAction="#reportBackEvent" prefHeight="40.0" prefWidth="120.0" text="Back">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="400.0" layoutY="850.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Save">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <ComboBox layoutX="340.0" layoutY="100.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button layoutX="220.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Generate Report" />
-      <TextArea layoutX="25.0" layoutY="160.0" prefHeight="210.0" prefWidth="650.0" />
-      <TextArea layoutX="25.0" layoutY="395.0" prefHeight="210.0" prefWidth="650.0" />
-      <TextArea layoutX="25.0" layoutY="635.0" prefHeight="210.0" prefWidth="650.0" />
-      <Label alignment="CENTER" layoutX="340.0" layoutY="83.0" prefHeight="17.0" prefWidth="200.0" text="Choose Report Type" />
-      <Label layoutX="25.0" layoutY="143.0" prefHeight="17.0" prefWidth="221.0" text="Number of Appointment Types by Month" />
-      <Label layoutX="25.0" layoutY="380.0" prefHeight="17.0" prefWidth="221.0" text="The Schedule for Each Consultant" />
-      <Label layoutX="25.0" layoutY="620.0" prefHeight="17.0" prefWidth="221.0" text="Total Appointments" />
+      <ComboBox fx:id="chooseReport" layoutX="25.0" layoutY="75.0" prefHeight="25.0" prefWidth="534.0" />
+      <Button layoutX="570.0" layoutY="75.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="25.0" prefWidth="105.0" text="Generate Report" />
+      <TextArea fx:id="apptTypeByMonth" layoutX="25.0" layoutY="140.0" prefHeight="120.0" prefWidth="650.0" />
+      <TextArea fx:id="apptSchedule" layoutX="25.0" layoutY="280.0" prefHeight="120.0" prefWidth="650.0" />
+      <TextArea fx:id="apptTotalRemaining" layoutX="25.0" layoutY="420.0" prefHeight="120.0" prefWidth="650.0" />
+      <Label alignment="CENTER" layoutX="40.0" layoutY="55.0" prefHeight="20.0" prefWidth="130.0" text="Choose Report Type" />
+      <Label layoutX="25.0" layoutY="124.0" prefHeight="17.0" prefWidth="221.0" text="Number of Appointment Types by Month" />
+      <Label layoutX="25.0" layoutY="265.0" prefHeight="17.0" prefWidth="221.0" text="The Schedule for Each Consultant" />
+      <Label layoutX="25.0" layoutY="405.0" prefHeight="17.0" prefWidth="221.0" text="Total Appointments Remaning This Year" />
    </children>
 </AnchorPane>

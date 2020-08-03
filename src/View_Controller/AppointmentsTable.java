@@ -1,21 +1,17 @@
 package View_Controller;
 
+
 import Model.AppointmentDatabase;
 import Model.Appointments;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -103,77 +99,160 @@ public class AppointmentsTable implements Initializable {
     @FXML
     private TableColumn<Appointments,String> allEnd;
 
-        @FXML
-        void addApptEvent(ActionEvent event) throws IOException {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AddAppointment.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-
-        @FXML
-        void backApptTableEvent(ActionEvent event) {
-            Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            stage.close();
+    @FXML
+    void addApptEvent(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AddAppointment.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-        @FXML
-        void modifyApptEvent(ActionEvent event) throws IOException {
+    @FXML
+    void backApptTableEvent(ActionEvent event) throws IOException {
+        Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/Main.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    private Appointments apptSelection;
+
+    //The all tab is used only to display all appointments and should not be used to modify or delete appointments.
+    @FXML
+    void modifyApptEvent(ActionEvent event) throws IOException {
+        if(tabWeekly.isSelected()) {
+            Appointments apptToModify = tableViewWeekly.getSelectionModel().getSelectedItem();
+            apptIndexMod = AppointmentDatabase.getWeeklyAppointmentsTableList().indexOf(apptToModify);
+
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyAppointment.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-    }
+        }
+        if (tabMonthly.isSelected()) {
+            Appointments apptToModify = tableViewMonthly.getSelectionModel().getSelectedItem();
+            apptIndexMod = AppointmentDatabase.getMonthlyAppointmentsTableList().indexOf(apptToModify);
 
-        @Override
-        public void initialize(URL url, ResourceBundle rb) {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyAppointment.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
-            AppointmentDatabase.getAllAppointmentsTableList().clear();
-            AppointmentDatabase.getMonthlyAppointmentsTableList().clear();
-            AppointmentDatabase.getWeeklyAppointmentsTableList().clear();
-            tableViewMonthly.setItems(AppointmentDatabase.getMonthlyAppointmentsTableList());
-            tableViewWeekly.setItems(AppointmentDatabase.getWeeklyAppointmentsTableList());
-            tableViewAll.setItems(AppointmentDatabase.getAllAppointmentsTableList());
+        } if(tabAll.isSelected()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Invalid tab selection.");
+            alert.setHeaderText("The all tab is used for display purposes only.");
+            alert.setContentText("Please use the weekly or monthly tab to modify appointments.");
+            alert.showAndWait();
 
-            AppointmentDatabase populateAllAppointments = new AppointmentDatabase();
-            populateAllAppointments.populateAllViewAppointments();
-
-            tableViewMonthly.getSelectionModel();
-            monthlyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            monthlyContact.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getContact()));
-            monthlyTitle.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getTitle()));
-            monthlyType.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getType()));
-            monthlyLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
-            monthlyStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
-            monthlyEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
-
-            //AppointmentDatabase populateMonthlyAppointments = new AppointmentDatabase();
-            populateAllAppointments.populateMonthlyViewAppointments();
-
-            tableViewWeekly.getSelectionModel();
-            weeklyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            weeklyContact.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getContact()));
-            weeklyTitle.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getTitle()));
-            weeklyType.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getType()));
-            weeklyLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
-            weeklyStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
-            weeklyEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
-
-            populateAllAppointments.populateWeeklyViewAppointments();
-            tableViewAll.getSelectionModel();
-            allCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            allContact.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getContact()));
-            allTitle.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getTitle()));
-            allType.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getType()));
-            allLocation.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getLocation()));
-            allStart.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getApptStart()));
-            allEnd.setCellValueFactory(appointment -> new SimpleStringProperty(appointment.getValue().getapptEnd()));
-            
-            
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.close();
 
         }
+    }
+
+    //The all tab is used only to display all appointments and should not be used to modify or delete appointments.
+    @FXML
+    void deleteApptEvent(ActionEvent event) throws IOException {
+        if(tabWeekly.isSelected()) {
+            apptSelection = tableViewWeekly.getSelectionModel().getSelectedItem();
+            AppointmentDatabase.deleteWeeklyViewAppt(apptSelection.getAppointmentId());
+            AppointmentDatabase.deleteMonthlyViewAppt(apptSelection.getAppointmentId());
+            AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
+
+            Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+            stage.setScene(new Scene((Parent) scene));
+            stage.show();
+        }
+            if(tabMonthly.isSelected()) {
+                apptSelection = tableViewMonthly.getSelectionModel().getSelectedItem();
+                AppointmentDatabase.deleteMonthlyViewAppt(apptSelection.getAppointmentId());
+                AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
+
+                Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+                Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+                stage.setScene(new Scene((Parent) scene));
+                stage.show();
+        }
+            if(tabAll.isSelected()) {
+                apptSelection = tableViewAll.getSelectionModel().getSelectedItem();
+                AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid tab selection.");
+                alert.setHeaderText("The all tab is used for display purposes only.");
+                alert.setContentText("Please use the weekly or monthly tab to delete appointments.");
+                alert.showAndWait();
+
+                Stage stage = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.close();
+            }
+
+    }
+
+    //Selects appointment that should be modified.
+    public static int getApptIndexToMod(){
+        return apptIndexMod;
+    }
+
+    private static int apptIndexMod;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        AppointmentDatabase.getAllAppointmentsTableList().clear();
+        AppointmentDatabase.getMonthlyAppointmentsTableList().clear();
+        AppointmentDatabase.getWeeklyAppointmentsTableList().clear();
+        tableViewMonthly.setItems(AppointmentDatabase.getMonthlyAppointmentsTableList());
+        tableViewWeekly.setItems(AppointmentDatabase.getWeeklyAppointmentsTableList());
+        tableViewAll.setItems(AppointmentDatabase.getAllAppointmentsTableList());
+
+        AppointmentDatabase populateAllAppointments = new AppointmentDatabase();
+        populateAllAppointments.populateAllViewAppointments();
+        populateAllAppointments.populateMonthlyViewAppointments();
+        populateAllAppointments.populateWeeklyViewAppointments();
+
+
+        tableViewMonthly.getSelectionModel();
+        monthlyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        monthlyTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        monthlyLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        monthlyContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        monthlyType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        monthlyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
+        monthlyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+
+
+        tableViewWeekly.getSelectionModel();
+        weeklyCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        weeklyTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        weeklyLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        weeklyContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        weeklyType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        weeklyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
+        weeklyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+
+        tableViewAll.getSelectionModel();
+        allCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        allTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        allLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        allContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        allType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        allStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
+        allEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+    }
 }
 
 

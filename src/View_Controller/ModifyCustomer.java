@@ -1,5 +1,6 @@
 package View_Controller;
 
+
 import Model.Customer;
 import Model.CustomerDatabase;
 import javafx.collections.FXCollections;
@@ -16,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utils.Database;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -49,14 +49,11 @@ public class ModifyCustomer implements Initializable {
     int custIndexMod = CustomerTable.getCustIndexToMod();
 
     @FXML
-    void modifyCustSaveEvent(ActionEvent event) throws IOException
-
-    {
+    void modifyCustSaveEvent(ActionEvent event) throws IOException {
 
         int addressId = 0;
 
-
- try {
+    try {
         Integer customerId = Integer.parseInt(modifyCustId.getText());
         String customerName = modifyCustName.getText();
         String customerAddress = modifyCustAddress.getText();
@@ -82,7 +79,7 @@ public class ModifyCustomer implements Initializable {
         String updateAddress = "UPDATE address SET address = '" + customerAddress + "', postalCode = '', phone = '" + customerPhone + "' WHERE addressID = " + addressId;
         int updatedAddress = statement.executeUpdate(updateAddress);
 
-    }catch(
+    } catch(
     SQLException e) {
         System.out.println("Error " + e.getMessage());
     }

@@ -13,24 +13,6 @@
    <children>
       <TabPane layoutX="5.0" layoutY="76.0" prefHeight="425.0" prefWidth="1036.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="tabMonthly" text="Monthly">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="tableViewMonthly" prefHeight="400.0" prefWidth="1036.0">
-                           <columns>
-                              <TableColumn fx:id="monthlyCustomerName" prefWidth="148.0" text="Customer Name" />
-                              <TableColumn fx:id="monthlyContact" prefWidth="148.0" text="Contact" />
-                              <TableColumn fx:id="monthlyTitle" prefWidth="148.0" text="Title" />
-                              <TableColumn fx:id="monthlyType" prefWidth="148.0" text="Type" />
-                              <TableColumn fx:id="monthlyLocation" prefWidth="148.0" text="Location" />
-                              <TableColumn fx:id="monthlyStart" prefWidth="148.0" text="Start Time" />
-                              <TableColumn fx:id="monthlyEnd" prefWidth="148.0" text="End Time" />
-                           </columns>
-                        </TableView>
-                     </children></AnchorPane>
-               </content>
-          </Tab>
           <Tab fx:id="tabWeekly" text="Weekly">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -48,6 +30,24 @@
                         </TableView>
                      </children></AnchorPane>
             </content>
+          </Tab>
+          <Tab fx:id="tabMonthly" text="Monthly">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewMonthly" prefHeight="400.0" prefWidth="1036.0">
+                           <columns>
+                              <TableColumn fx:id="monthlyCustomerName" prefWidth="148.0" text="Customer Name" />
+                              <TableColumn fx:id="monthlyContact" prefWidth="148.0" text="Contact" />
+                              <TableColumn fx:id="monthlyTitle" prefWidth="148.0" text="Title" />
+                              <TableColumn fx:id="monthlyType" prefWidth="148.0" text="Type" />
+                              <TableColumn fx:id="monthlyLocation" prefWidth="148.0" text="Location" />
+                              <TableColumn fx:id="monthlyStart" prefWidth="148.0" text="Start Time" />
+                              <TableColumn fx:id="monthlyEnd" prefWidth="148.0" text="End Time" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+               </content>
           </Tab>
             <Tab fx:id="tabAll" text="All">
               <content>
@@ -85,7 +85,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="540.0" layoutY="550.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="Delete">
+      <Button contentDisplay="CENTER" layoutX="540.0" layoutY="550.0" mnemonicParsing="false" onAction="#deleteApptEvent" prefHeight="40.0" prefWidth="120.0" text="Delete">
          <font>
             <Font size="18.0" />
          </font>

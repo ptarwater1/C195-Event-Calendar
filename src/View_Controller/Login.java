@@ -1,5 +1,7 @@
 package View_Controller;
 
+
+import Model.AppointmentDatabase;
 import Model.UserDatabase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -49,6 +50,7 @@ public class Login implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            AppointmentDatabase.appt15Minutes();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(titleError);
@@ -79,3 +81,4 @@ public class Login implements Initializable {
 
 
 }
+

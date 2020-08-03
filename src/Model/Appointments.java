@@ -1,115 +1,128 @@
 package Model;
 
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-import java.sql.Timestamp;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-
 public class Appointments {
 
-    private final SimpleIntegerProperty appointmentId = new SimpleIntegerProperty();
-    private final SimpleIntegerProperty customerId = new SimpleIntegerProperty();
-    private final SimpleStringProperty customerName = new SimpleStringProperty();
-    private final SimpleStringProperty contact = new SimpleStringProperty();
-    private final SimpleStringProperty title = new SimpleStringProperty();
-    private final SimpleStringProperty type = new SimpleStringProperty();
-    private final SimpleStringProperty location = new SimpleStringProperty();
-    private final SimpleStringProperty apptStart = new SimpleStringProperty();
-    private final SimpleStringProperty apptEnd = new SimpleStringProperty();
-
+    private String customerName;
+    private int appointmentId;
+    private int customerId;
+    private int userId;
+    private String title;
+    private String location;
+    private String contact;
+    private String type;
+    private String apptStart;
+    private String apptEnd;
 
 
     public Appointments() {}
 
-public Appointments(int appointmentId, int customerId, String customerName, String title, String type, String location, String contact, String apptStart, String apptEnd) {
-    
-    setAppointmentId(appointmentId);
-    setCustomerId(customerId);
-    setCustomerName(customerName);
-    setContact(contact);
-    setTitle(title);
-    setType(type);
-    setLocation(location);
+    public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd) {
 
-    setApptStart(apptStart);
-    setApptEnd(apptEnd);
-               
+        customerName = this.customerName;
+        appointmentId = this.appointmentId;
+        customerId = this.customerId;
+        userId = this.userId;
+        title = this.title;
+        location = this.location;
+        contact = this.contact;
+        type = this.type;
+        apptStart = this.apptStart;
+        apptEnd = this.apptEnd;
+    }
+
+    public Appointments(int appointmentId, int customerId, int userId, String title, String type, String location, String contact, String apptStart, String apptEnd) {
+    
+        setAppointmentId(appointmentId);
+        setCustomerId(customerId);
+        setUserId(userId);
+        setContact(contact);
+        setTitle(title);
+        setType(type);
+        setLocation(location);
+        setApptStart(apptStart);
+        setApptEnd(apptEnd);
+
     }
 
     public int getAppointmentId() {
-        return appointmentId.get();
+        return appointmentId;
     }
 
     public int getCustomerId() {
-        return customerId.get();
+        return customerId;
+    }
+
+    public int getUserId(){
+        return userId;
     }
 
     public String getCustomerName() {
-        return customerName.get();
+        return customerName;
     }
 
     public String getApptStart() {
-        return apptStart.get();
+        return apptStart;
     }
 
-    public String getapptEnd() {
-        return apptEnd.get();
+    public String getApptEnd() {
+        return apptEnd;
     }
 
     public String getTitle() {
-        return title.get();
+        return title;
     }
 
     public String getLocation() {
-        return location.get();
+        return location;
     }
 
     public String getContact() {
-        return contact.get();
+        return contact;
     }
 
     public String getType() {
-        return type.get();
+        return type;
     }
 
     public void setAppointmentId(int appointmentId) {
-        this.appointmentId.set(appointmentId);
+        this.appointmentId = appointmentId;
     }
 
     public void setCustomerId(int customerId) {
-        this.customerId.set(customerId);
+        this.customerId = customerId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setCustomerName(String customerName) {
-        this.customerName.set(customerName);
+        this.customerName = customerName;
     }
 
     public void setApptEnd(String apptEnd) {
-        this.apptEnd.set(apptEnd);
+        this.apptEnd = apptEnd;
     }
 
-    public void setApptStart(String apptTimeStart) {
-        this.apptStart.set(apptTimeStart);
+    public void setApptStart(String apptStart) {
+        this.apptStart = apptStart;
     }
 
     public void setTitle(String title) {
-        this.title.set(title);
+        this.title = title;
     }
 
     public void setLocation(String location) {
-        this.location.set(location);
+        this.location = location;
     }
 
     public void setContact(String contact) {
-        this.contact.set(contact);
+        this.contact= contact;
     }
 
     public void setType(String type) {
-        this.type.set(type);
+        this.type = type;
     }
 
 
