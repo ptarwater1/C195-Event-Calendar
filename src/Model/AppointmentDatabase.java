@@ -1,5 +1,6 @@
 package Model;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -7,6 +8,8 @@ import utils.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AppointmentDatabase {
@@ -66,6 +69,79 @@ public class AppointmentDatabase {
                 String End = appointmentsTableData.getString("end");
 
 
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
+                ZoneId localZoneId = ZoneId.systemDefault();
+                ZoneId utcZoneId = ZoneId.of("Z");
+
+                LocalDateTime utcDateTimeToStringStart = LocalDateTime.parse(Start, formatter);
+                ZonedDateTime dateTimeStartUTC = ZonedDateTime.of(utcDateTimeToStringStart, utcZoneId);
+                ZonedDateTime utcDateTimeStartToLocal = dateTimeStartUTC.withZoneSameInstant(localZoneId);
+
+                int startLocalYear = utcDateTimeStartToLocal.getYear();
+                int startLocalMonth = utcDateTimeStartToLocal.getMonthValue();
+                String monthStartString = String.valueOf(startLocalMonth);
+                if (monthStartString.length() == 1) {
+                    monthStartString = "0" + monthStartString;
+                }
+                int startLocalDay = utcDateTimeStartToLocal.getDayOfMonth();
+                String dayStartString = String.valueOf(startLocalDay);
+                if (dayStartString.length() == 1) {
+                    dayStartString = "0" + dayStartString;
+                }
+                int startLocalHour = utcDateTimeStartToLocal.getHour();
+                String hourStartString = String.valueOf(startLocalHour);
+                if (hourStartString.length() == 1) {
+                    hourStartString = "0" + hourStartString;
+                }
+                int startLocalMinute = utcDateTimeStartToLocal.getMinute();
+                String minuteStartString = String.valueOf(startLocalMinute);
+                if (minuteStartString.length() == 1) {
+                    minuteStartString = "0" + minuteStartString;
+                }
+                int startLocalSecond = utcDateTimeStartToLocal.getSecond();
+                String secondStartString = String.valueOf(startLocalSecond);
+                if (secondStartString.length() == 1) {
+                    secondStartString = "0" + secondStartString;
+                }
+
+                String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " "
+                        + hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+
+                LocalDateTime utcDateTimeToStringEnd = LocalDateTime.parse(End, formatter);
+                ZonedDateTime dateTimeEndUTC = ZonedDateTime.of(utcDateTimeToStringEnd, utcZoneId);
+                ZonedDateTime utcDateTimeEndToLocal = dateTimeEndUTC.withZoneSameInstant(localZoneId);
+
+                int endLocalYear = utcDateTimeEndToLocal.getYear();
+                int endLocalMonth = utcDateTimeEndToLocal.getMonthValue();
+                String monthEndString = String.valueOf(endLocalMonth);
+                if (monthEndString.length() == 1) {
+                    monthEndString = "0" + monthEndString;
+                }
+                int endLocalDay = utcDateTimeEndToLocal.getDayOfMonth();
+                String dayEndString = String.valueOf(endLocalDay);
+                if (dayEndString.length() == 1) {
+                    dayEndString = "0" + dayEndString;
+                }
+                int endLocalHour = utcDateTimeEndToLocal.getHour();
+                String hourEndString = String.valueOf(endLocalHour);
+                if (hourEndString.length() == 1) {
+                    hourEndString = "0" + hourEndString;
+                }
+                int endLocalMinute = utcDateTimeEndToLocal.getMinute();
+                String minuteEndString = String.valueOf(endLocalMinute);
+                if (minuteEndString.length() == 1) {
+                    minuteEndString = "0" + minuteEndString;
+                }
+                int endLocalSecond = utcDateTimeEndToLocal.getSecond();
+                String secondEndString = String.valueOf(endLocalSecond);
+                if (secondEndString.length() == 1) {
+                    secondEndString = "0" + secondEndString;
+                }
+
+                String utcEndTimeToLocal = Integer.toString(endLocalYear) + "-" + monthEndString + "-" + dayEndString + " "
+                        + hourEndString + ":" + minuteEndString + ":" + secondEndString;
+
                 appointments.setAppointmentId(appointmentId);
                 appointments.setCustomerId(customerId);
                 appointments.setCustomerName(customerName);
@@ -73,11 +149,11 @@ public class AppointmentDatabase {
                 appointments.setType(Type);
                 appointments.setLocation(Location);
                 appointments.setContact(Contact);
-                appointments.setApptStart(Start);
-                appointments.setApptEnd(End);
+                appointments.setApptStart(utcStartTimeToLocal);
+                appointments.setApptEnd(utcEndTimeToLocal);
                 allAppointments.add(appointments);
-
             }
+
 
         } catch (SQLException e) {
             System.out.println("Error " + e.getMessage());
@@ -91,7 +167,7 @@ public class AppointmentDatabase {
         try {
 
             Statement statement = Database.getConnection().createStatement();
-            ObservableList<Appointments> allAppointments = AppointmentDatabase.getMonthlyAppointmentsTableList();
+            ObservableList<Appointments> monthlyAppointments = AppointmentDatabase.getMonthlyAppointmentsTableList();
             ResultSet allApptsData = statement.executeQuery("SELECT * FROM appointment WHERE start BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 30 DAY)");
 
             ArrayList<Integer> selectedAppointments = new ArrayList<>();
@@ -116,6 +192,84 @@ public class AppointmentDatabase {
                 String Start = appointmentsTableData.getString("start");
                 String End = appointmentsTableData.getString("end");
 
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
+                ZoneId localZoneId = ZoneId.systemDefault();
+                ZoneId utcZoneId = ZoneId.of("Z");
+
+                LocalDateTime utcDateTimeToStringStart = LocalDateTime.parse(Start, formatter);
+                ZonedDateTime dateTimeStartUTC = ZonedDateTime.of(utcDateTimeToStringStart, utcZoneId);
+                ZonedDateTime utcDateTimeStartToLocal = dateTimeStartUTC.withZoneSameInstant(localZoneId);
+
+                int startLocalYear = utcDateTimeStartToLocal.getYear();
+                int startLocalMonth = utcDateTimeStartToLocal.getMonthValue();
+                String monthStartString = String.valueOf(startLocalMonth);
+                if (monthStartString.length() == 1) {
+                    monthStartString = "0" + monthStartString;
+                }
+                int startLocalDay = utcDateTimeStartToLocal.getDayOfMonth();
+                String dayStartString = String.valueOf(startLocalDay);
+                if (dayStartString.length() == 1) {
+                    dayStartString = "0" + dayStartString;
+                }
+                int startLocalHour = utcDateTimeStartToLocal.getHour();
+                String hourStartString = String.valueOf(startLocalHour);
+                if (hourStartString.length() == 1) {
+                    hourStartString = "0" + hourStartString;
+                }
+                int startLocalMinute = utcDateTimeStartToLocal.getMinute();
+                String minuteStartString = String.valueOf(startLocalMinute);
+                if (minuteStartString.length() == 1) {
+                    minuteStartString = "0" + minuteStartString;
+                }
+                int startLocalSecond = utcDateTimeStartToLocal.getSecond();
+                String secondStartString = String.valueOf(startLocalSecond);
+                if (secondStartString.length() == 1) {
+                    secondStartString = "0" + secondStartString;
+                }
+
+                String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " "
+                        + hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+
+                LocalDateTime utcDateTimeToStringEnd = LocalDateTime.parse(End, formatter);
+                ZonedDateTime dateTimeEndUTC = ZonedDateTime.of(utcDateTimeToStringEnd, utcZoneId);
+                ZonedDateTime utcDateTimeEndToLocal = dateTimeEndUTC.withZoneSameInstant(localZoneId);
+
+                int endLocalYear = utcDateTimeEndToLocal.getYear();
+                int endLocalMonth = utcDateTimeEndToLocal.getMonthValue();
+                String monthEndString = String.valueOf(endLocalMonth);
+                if (monthEndString.length() == 1) {
+                    monthEndString = "0" + monthEndString;
+                }
+                int endLocalDay = utcDateTimeEndToLocal.getDayOfMonth();
+                String dayEndString = String.valueOf(endLocalDay);
+                if (dayEndString.length() == 1) {
+                    dayEndString = "0" + dayEndString;
+                }
+                int endLocalHour = utcDateTimeEndToLocal.getHour();
+                String hourEndString = String.valueOf(endLocalHour);
+                if (hourEndString.length() == 1) {
+                    hourEndString = "0" + hourEndString;
+                }
+                int endLocalMinute = utcDateTimeEndToLocal.getMinute();
+                String minuteEndString = String.valueOf(endLocalMinute);
+                if (minuteEndString.length() == 1) {
+                    minuteEndString = "0" + minuteEndString;
+                }
+                int endLocalSecond = utcDateTimeEndToLocal.getSecond();
+                String secondEndString = String.valueOf(endLocalSecond);
+                if (secondEndString.length() == 1) {
+                    secondEndString = "0" + secondEndString;
+                }
+
+                String utcEndTimeToLocal = Integer.toString(endLocalYear) + "-" + monthEndString + "-" + dayEndString + " "
+                        + hourEndString + ":" + minuteEndString + ":" + secondEndString;
+
+
+
+
+
                 appointments.setAppointmentId(appointmentId);
                 appointments.setCustomerId(customerId);
                 appointments.setCustomerName(customerName);
@@ -123,9 +277,9 @@ public class AppointmentDatabase {
                 appointments.setType(Type);
                 appointments.setLocation(Location);
                 appointments.setContact(Contact);
-                appointments.setApptStart(Start);
-                appointments.setApptEnd(End);
-                allAppointments.add(appointments);
+                appointments.setApptStart(utcStartTimeToLocal);
+                appointments.setApptEnd(utcEndTimeToLocal);
+                monthlyAppointments.add(appointments);
 
             }
 
@@ -150,11 +304,14 @@ public class AppointmentDatabase {
                 selectedAppointments.add(weeklyApptsData.getInt(1));
             }
 
+
+
             for (int apptIdIteration : selectedAppointments) {
 
                 Appointments appointments = new Appointments();
                 ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
                 appointmentsTableData.next();
+
 
                 int appointmentId = appointmentsTableData.getInt("appointmentId");
                 int customerId = appointmentsTableData.getInt("customerId");
@@ -166,6 +323,81 @@ public class AppointmentDatabase {
                 String Start = appointmentsTableData.getString("start");
                 String End = appointmentsTableData.getString("end");
 
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
+                ZoneId localZoneId = ZoneId.systemDefault();
+                ZoneId utcZoneId = ZoneId.of("Z");
+
+                LocalDateTime utcDateTimeToStringStart = LocalDateTime.parse(Start, formatter);
+                ZonedDateTime dateTimeStartUTC = ZonedDateTime.of(utcDateTimeToStringStart, utcZoneId);
+                ZonedDateTime utcDateTimeStartToLocal = dateTimeStartUTC.withZoneSameInstant(localZoneId);
+
+                int startLocalYear = utcDateTimeStartToLocal.getYear();
+                int startLocalMonth = utcDateTimeStartToLocal.getMonthValue();
+                String monthStartString = String.valueOf(startLocalMonth);
+                if (monthStartString.length() == 1) {
+                    monthStartString = "0" + monthStartString;
+                }
+                int startLocalDay = utcDateTimeStartToLocal.getDayOfMonth();
+                String dayStartString = String.valueOf(startLocalDay);
+                if (dayStartString.length() == 1) {
+                    dayStartString = "0" + dayStartString;
+                }
+                int startLocalHour = utcDateTimeStartToLocal.getHour();
+                String hourStartString = String.valueOf(startLocalHour);
+                if (hourStartString.length() == 1) {
+                    hourStartString = "0" + hourStartString;
+                }
+                int startLocalMinute = utcDateTimeStartToLocal.getMinute();
+                String minuteStartString = String.valueOf(startLocalMinute);
+                if (minuteStartString.length() == 1) {
+                    minuteStartString = "0" + minuteStartString;
+                }
+                int startLocalSecond = utcDateTimeStartToLocal.getSecond();
+                String secondStartString = String.valueOf(startLocalSecond);
+                if (secondStartString.length() == 1) {
+                    secondStartString = "0" + secondStartString;
+                }
+
+                String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " "
+                        + hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+
+                LocalDateTime utcDateTimeToStringEnd = LocalDateTime.parse(End, formatter);
+                ZonedDateTime dateTimeEndUTC = ZonedDateTime.of(utcDateTimeToStringEnd, utcZoneId);
+                ZonedDateTime utcDateTimeEndToLocal = dateTimeEndUTC.withZoneSameInstant(localZoneId);
+
+                int endLocalYear = utcDateTimeEndToLocal.getYear();
+                int endLocalMonth = utcDateTimeEndToLocal.getMonthValue();
+                String monthEndString = String.valueOf(endLocalMonth);
+                if (monthEndString.length() == 1) {
+                    monthEndString = "0" + monthEndString;
+                }
+                int endLocalDay = utcDateTimeEndToLocal.getDayOfMonth();
+                String dayEndString = String.valueOf(endLocalDay);
+                if (dayEndString.length() == 1) {
+                    dayEndString = "0" + dayEndString;
+                }
+                int endLocalHour = utcDateTimeEndToLocal.getHour();
+                String hourEndString = String.valueOf(endLocalHour);
+                if (hourEndString.length() == 1) {
+                    hourEndString = "0" + hourEndString;
+                }
+                int endLocalMinute = utcDateTimeEndToLocal.getMinute();
+                String minuteEndString = String.valueOf(endLocalMinute);
+                if (minuteEndString.length() == 1) {
+                    minuteEndString = "0" + minuteEndString;
+                }
+                int endLocalSecond = utcDateTimeEndToLocal.getSecond();
+                String secondEndString = String.valueOf(endLocalSecond);
+                if (secondEndString.length() == 1) {
+                    secondEndString = "0" + secondEndString;
+                }
+
+                String utcEndTimeToLocal = Integer.toString(endLocalYear) + "-" + monthEndString + "-" + dayEndString + " "
+                        + hourEndString + ":" + minuteEndString + ":" + secondEndString;
+                
+
                 appointments.setAppointmentId(appointmentId);
                 appointments.setCustomerId(customerId);
                 appointments.setCustomerName(customerName);
@@ -173,9 +405,10 @@ public class AppointmentDatabase {
                 appointments.setType(Type);
                 appointments.setLocation(Location);
                 appointments.setContact(Contact);
-                appointments.setApptStart(Start);
-                appointments.setApptEnd(End);
+                appointments.setApptStart(utcStartTimeToLocal);
+                appointments.setApptEnd(utcEndTimeToLocal);
                 weeklyAppointments.add(appointments);
+                
             }
         } catch (SQLException e) {
             System.out.println("Error " + e.getMessage());

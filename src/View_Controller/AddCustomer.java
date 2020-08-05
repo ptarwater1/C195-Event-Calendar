@@ -2,6 +2,7 @@ package View_Controller;
 
 import Model.Customer;
 import Model.CustomerDatabase;
+import Model.UserDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,7 +69,9 @@ public class AddCustomer implements Initializable {
         String customerCountry = addCustCountry.getText();
         String customerPhone = addCustPhone.getText();
 
-        try {
+        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(customerCityChoiceValue) && verifyPhone(customerPhone)) {
+
+            try {
 
 
 
@@ -95,7 +98,7 @@ public class AddCustomer implements Initializable {
             if(addressExecuteUpdate == 1) {
 
                 String customerQuery = "INSERT INTO customer SET customerId="+ customerId + ", customerName='"
-                        + customerName + "', addressId=" + addressId +", active=1, createDate=NOW(), createdBy='', lastUpdate=NOW(), lastUpdateBy=''";
+                        + customerName + "', addressId=" + addressId +", active=1, createDate=NOW(), createdBy='" + UserDatabase.getActiveUser().getUsername() + "', lastUpdate=NOW(), lastUpdateBy='" + UserDatabase.getActiveUser().getUsername() + "'";
 
                 int customerExecuteUpdate = statement.executeUpdate(customerQuery);
 
@@ -110,7 +113,7 @@ public class AddCustomer implements Initializable {
             System.out.println("Error " + e.getMessage());
         }
 
-        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(customerCityChoiceValue) && verifyPhone(customerPhone)) {
+
 
             Customer customer = new Customer(customerId, customerName, customerAddress, customerCityChoiceValue, customerCountry, customerPhone);
             CustomerDatabase.addCustomer(customer);

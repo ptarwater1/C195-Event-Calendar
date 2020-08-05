@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utils.Database;
 import java.io.IOException;
@@ -53,13 +50,17 @@ public class ModifyCustomer implements Initializable {
 
         int addressId = 0;
 
-    try {
+
+
         Integer customerId = Integer.parseInt(modifyCustId.getText());
         String customerName = modifyCustName.getText();
         String customerAddress = modifyCustAddress.getText();
         String customerCountry = modifyCustCountry.getText();
         String customerPhone = modifyCustPhone.getText();
         String customerCity = modifyCustCity.getSelectionModel().getSelectedItem();
+        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(customerCity) && verifyPhone(customerPhone)){
+
+            try {
 
         Customer customer = new Customer(customerId, customerName, customerAddress, customerCity, customerCountry, customerPhone);
         CustomerDatabase.getAllCustomersTableList().set(custIndexMod, customer);
@@ -79,8 +80,7 @@ public class ModifyCustomer implements Initializable {
         String updateAddress = "UPDATE address SET address = '" + customerAddress + "', postalCode = '', phone = '" + customerPhone + "' WHERE addressID = " + addressId;
         int updatedAddress = statement.executeUpdate(updateAddress);
 
-    } catch(
-    SQLException e) {
+    } catch(SQLException e) {
         System.out.println("Error " + e.getMessage());
     }
 
@@ -88,7 +88,7 @@ public class ModifyCustomer implements Initializable {
     Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/CustomerTable.fxml"));
         stage.setScene(new Scene((Parent) scene));
         stage.close();
-
+    }
 }
 
     @FXML
@@ -128,5 +128,58 @@ public class ModifyCustomer implements Initializable {
         modifyCustCountry.setText(country);
         modifyCustPhone.setText(phone);
 
+    }
+
+    public boolean verifyName(String name) {
+        if(name.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Name field cannot be left blank.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean verifyAddress(String address) {
+        if(address.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Address field cannot be left blank.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean verifyCity(String city) {
+        if(city.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A city must be selected.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public boolean verifyPhone(String phone) {
+        if(phone.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("A phone number must be entered.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.time.LocalDateTime;
+
 public class Appointments {
 
     private String customerName;
@@ -15,9 +17,9 @@ public class Appointments {
     private String apptEnd;
 
 
-    public Appointments() {}
+   public Appointments() {}
 
-    public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd) {
+   public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd) {
 
         customerName = this.customerName;
         appointmentId = this.appointmentId;

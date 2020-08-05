@@ -92,7 +92,7 @@ public class ModifyAppointment  implements Initializable {
         String startDateNTime = apptDate + " " + apptStart;
         String endDateNTime = apptDate + " " + apptEnd;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
 
         LocalDateTime dateTimeToStringStart = LocalDateTime.parse(startDateNTime, formatter);
@@ -106,7 +106,7 @@ public class ModifyAppointment  implements Initializable {
         int startUTCHour = dateTimeStartUTC.getHour();
         int startUTCMinute = dateTimeStartUTC.getMinute();
 
-        String convertedZoneStart = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
+        String convertedZoneLocalToUtcStart = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
                 + Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCMinute);
 
 
@@ -120,14 +120,17 @@ public class ModifyAppointment  implements Initializable {
         int endUTCHour = dateTimeEndUTC.getHour();
         int endUTCMinute = dateTimeEndUTC.getMinute();
 
-        String convertedZoneEnd = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
+        String convertedLocalToUtcZoneEnd = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
                 + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCMinute);
 
 
+
+
+        if(checkOverlap(startDateNTime, endDateNTime)){
             try {
                 Statement statement = Database.getConnection().createStatement();
 
-                String modifyApptQuery = "UPDATE appointment SET title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + convertedZoneStart + "', end ='" + convertedZoneEnd + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + UserDatabase.getActiveUser().getUsername() + "' WHERE appointmentId = " + apptId;
+                String modifyApptQuery = "UPDATE appointment SET title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + startDateNTime + "', end ='" + endDateNTime + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + UserDatabase.getActiveUser().getUsername() + "' WHERE appointmentId = " + apptId;
 
                 int apptExecuteUpdate = statement.executeUpdate(modifyApptQuery);
                 if (apptExecuteUpdate == 1) {
@@ -142,7 +145,7 @@ public class ModifyAppointment  implements Initializable {
             Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
             stage.setScene(new Scene((Parent) scene));
             stage.close();
-
+        }
     }
 
 
@@ -238,6 +241,29 @@ public class ModifyAppointment  implements Initializable {
         }
 
         return choices;
+    }
+
+    public boolean checkOverlap(String checkStart, String checkEnd) {
+
+        try {
+            Statement statement = Database.getConnection().createStatement();
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
+            ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
+
+            if (timeOverlapCheck.next()) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("An appointment already exists during this time frame.");
+                alert.showAndWait();
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error " + e.getMessage());
+        }
+        return true;
+
     }
 
 

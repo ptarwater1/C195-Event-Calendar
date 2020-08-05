@@ -17,11 +17,9 @@ import utils.Database;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -63,7 +61,7 @@ public class AddAppointment implements Initializable {
     @FXML
     private TextField addApptTitle;
 
-    @FXML
+    @FXML //Type 1 of exception control (throws)
     void addApptBackEvent(ActionEvent event) throws IOException{
         Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
@@ -74,6 +72,10 @@ public class AddAppointment implements Initializable {
 
     public static int customerId;
     public static int userId;
+    public static String startDateNTime;
+    public String currentOffset;
+
+
 
     //Combobox data: only allowed to choose times within business hours. Appts can start at 8AM and must end by 5PM.
     ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
@@ -149,46 +151,51 @@ public class AddAppointment implements Initializable {
         String startDateNTime = apptDate + " " + apptStart;
         String endDateNTime = apptDate + " " + apptEnd;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
-        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
-
-        LocalDateTime dateTimeToStringStart = LocalDateTime.parse(startDateNTime, formatter);
-        ZonedDateTime dateTimeStartLocal = ZonedDateTime.of(dateTimeToStringStart, localZoneId);
-        ZonedDateTime dateTimeStartUTC = dateTimeStartLocal.withZoneSameInstant(ZoneId.of("Z"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
         LocalDateTime currentTime = java.time.LocalDateTime.now();
+        ZoneId localZoneId = ZoneId.systemDefault();
+        ZoneId utcZoneId = ZoneId.of("Z");
 
-        int startUTCYear = dateTimeStartUTC.getYear();
-        int startUTCMonth = dateTimeStartUTC.getMonthValue();
-        int startUTCDay = dateTimeStartUTC.getDayOfMonth();
-        int startUTCHour = dateTimeStartUTC.getHour();
-        int startUTCMinute = dateTimeStartUTC.getMinute();
+        LocalDateTime localDateTimeToStringStart = LocalDateTime.parse(startDateNTime, formatter);
+        ZonedDateTime dateTimeStartLocal = ZonedDateTime.of(localDateTimeToStringStart, localZoneId);
+        ZonedDateTime localDateTimeStartToUTC = dateTimeStartLocal.withZoneSameInstant(utcZoneId);
 
-        String convertedZoneStart = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
-                + Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCMinute);
+        int startUTCYear = localDateTimeStartToUTC.getYear();
+        int startUTCMonth = localDateTimeStartToUTC.getMonthValue();
+        int startUTCDay = localDateTimeStartToUTC.getDayOfMonth();
+        int startUTCHour = localDateTimeStartToUTC.getHour();
+        int startUTCMinute = localDateTimeStartToUTC.getMinute();
+        int startUTCSecond = localDateTimeStartToUTC.getSecond();
+
+        String localStartTimeToUtc = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
+                + Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCSecond);
+
+        LocalDateTime localDateTimeToStringEnd = LocalDateTime.parse(endDateNTime, formatter);
+        ZonedDateTime dateTimeEndLocal = ZonedDateTime.of(localDateTimeToStringEnd, localZoneId);
+        ZonedDateTime localDateTimeEndToUTC = dateTimeEndLocal.withZoneSameInstant(utcZoneId);
+
+        int endUTCYear = localDateTimeEndToUTC.getYear();
+        int endUTCMonth = localDateTimeEndToUTC.getMonthValue();
+        int endUTCDay = localDateTimeEndToUTC.getDayOfMonth();
+        int endUTCHour = localDateTimeEndToUTC.getHour();
+        int endUTCMinute = localDateTimeEndToUTC.getMinute();
+        int endUTCSecond = localDateTimeEndToUTC.getSecond();
+
+        String localEndTimeToUtc = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
+                + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
 
-        LocalDateTime dateTimeToStringEnd = LocalDateTime.parse(endDateNTime, formatter);
-        ZonedDateTime dateTimeEndLocal = ZonedDateTime.of(dateTimeToStringEnd, localZoneId);
-        ZonedDateTime dateTimeEndUTC = dateTimeEndLocal.withZoneSameInstant(ZoneId.of("Z"));
-
-        int endUTCYear = dateTimeEndUTC.getYear();
-        int endUTCMonth = dateTimeEndUTC.getMonthValue();
-        int endUTCDay = dateTimeEndUTC.getDayOfMonth();
-        int endUTCHour = dateTimeEndUTC.getHour();
-        int endUTCMinute = dateTimeEndUTC.getMinute();
-
-        String convertedZoneEnd = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
-                + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCMinute);
 
 
-        if(checkOverlap(convertedZoneStart, convertedZoneEnd)){
+
+        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
 
         try {
 
             Statement statement2 = Database.getConnection().createStatement();
 
             String addApptQuery = "INSERT INTO appointment (appointmentId, customerId, userId, title, description, location, contact, type, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)" +
-                    "VALUES ('" + appointmentId + "', '" + customerId + "', '" + UserDatabase.getActiveUserId().getUserId() + "', '" + apptTitle + "', 'not needed', '" + apptLocation + "', '" + apptContact + "', '" + apptType + "', 'not needed', '" + convertedZoneStart + "', '" + convertedZoneEnd + "', '" + currentTime + "','" + UserDatabase.getActiveUser().getUsername() + "', '" + currentTime + "', '" + UserDatabase.getActiveUser().getUsername() + "')";
+                    "VALUES ('" + appointmentId + "', '" + customerId + "', '" + UserDatabase.getActiveUserId().getUserId() + "', '" + apptTitle + "', 'not needed', '" + apptLocation + "', '" + apptContact + "', '" + apptType + "', 'not needed', '" + localStartTimeToUtc + "', '" + localEndTimeToUtc + "', '" + currentTime + "','" + UserDatabase.getActiveUser().getUsername() + "', '" + currentTime + "', '" + UserDatabase.getActiveUser().getUsername() + "')";
 
             int apptExecuteUpdate = statement2.executeUpdate(addApptQuery);
 
@@ -219,7 +226,7 @@ public class AddAppointment implements Initializable {
     }
 
     public boolean checkOverlap(String checkStart, String checkEnd) {
-
+//Type 2 of exception control (try catch)
         try {
             Statement statement = Database.getConnection().createStatement();
             String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
