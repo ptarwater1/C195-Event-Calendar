@@ -1,8 +1,6 @@
 package Model;
 
 
-import java.time.LocalDateTime;
-
 public class Appointments {
 
     private String customerName;
@@ -15,11 +13,14 @@ public class Appointments {
     private String type;
     private String apptStart;
     private String apptEnd;
+    private String localStartTimeStamp;
+    private String localEndTimeStamp;
+    private String localDate;
 
 
    public Appointments() {}
 
-   public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd) {
+   public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd, String localStartTimeStamp, String localEndTimeStamp, String localDate) {
 
         customerName = this.customerName;
         appointmentId = this.appointmentId;
@@ -31,6 +32,9 @@ public class Appointments {
         type = this.type;
         apptStart = this.apptStart;
         apptEnd = this.apptEnd;
+        localStartTimeStamp = this.localStartTimeStamp;
+        localEndTimeStamp = this.localEndTimeStamp;
+        localDate = this.localDate;
     }
 
     public Appointments(int appointmentId, int customerId, int userId, String title, String type, String location, String contact, String apptStart, String apptEnd) {
@@ -44,6 +48,9 @@ public class Appointments {
         setLocation(location);
         setApptStart(apptStart);
         setApptEnd(apptEnd);
+        setLocalStartTimeStamp(localStartTimeStamp);
+        setLocalEndTimeStamp(localEndTimeStamp);
+        setLocalDate(localDate);
 
     }
 
@@ -87,6 +94,18 @@ public class Appointments {
         return type;
     }
 
+    public String getLocalStartTimeStamp(){
+       return localStartTimeStamp;
+    }
+
+    public String getLocalEndTimeStamp(){
+        return localEndTimeStamp;
+    }
+
+    public String getLocalDate(){
+       return localDate;
+    }
+
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
     }
@@ -127,6 +146,17 @@ public class Appointments {
         this.type = type;
     }
 
+    public void setLocalStartTimeStamp(String localStartTimeStamp) {
+       this.localStartTimeStamp = localStartTimeStamp;
+    }
+
+    public void setLocalEndTimeStamp(String localEndTimeStamp) {
+       this.localEndTimeStamp = localEndTimeStamp;
+    }
+
+    public void setLocalDate(String localDate) {
+       this.localDate = localDate;
+    }
 
 
 }

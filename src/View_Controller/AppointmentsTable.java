@@ -121,7 +121,7 @@ public class AppointmentsTable implements Initializable {
 
     private Appointments apptSelection;
 
-
+    //The all tab is used only to display all appointments and should not be used to modify or delete appointments.
     @FXML
     void modifyApptEvent(ActionEvent event) throws IOException {
         if(tabWeekly.isSelected()) {
@@ -160,13 +160,13 @@ public class AppointmentsTable implements Initializable {
         }
     }
 
-
+    //The all tab is used only to display all appointments and should not be used to modify or delete appointments.
     @FXML
     void deleteApptEvent(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,("Delete this appointment?"));
         alert.setTitle("Confirm Delete.");
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
+        if(result.isPresent() && result.get() == ButtonType.OK){}
 
 
         if(tabWeekly.isSelected()) {
@@ -194,19 +194,13 @@ public class AppointmentsTable implements Initializable {
                 apptSelection = tableViewAll.getSelectionModel().getSelectedItem();
                 AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
 
-               /* Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Invalid tab selection.");
-                alert.setHeaderText("The all tab is used for display purposes only.");
-                alert.setContentText("Please use the weekly or monthly tab to delete appointments.");
-                alert.showAndWait();*/
-
                 Stage stage = new Stage();
                 Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.close();
             }
-        }
+
     }
 
     //Selects appointment that should be modified.

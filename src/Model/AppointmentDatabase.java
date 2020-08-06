@@ -69,6 +69,7 @@ public class AppointmentDatabase {
                 String End = appointmentsTableData.getString("end");
 
 
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
                 ZoneId localZoneId = ZoneId.systemDefault();
                 ZoneId utcZoneId = ZoneId.of("Z");
@@ -79,11 +80,11 @@ public class AppointmentDatabase {
 
                 int startLocalYear = utcDateTimeStartToLocal.getYear();
                 int startLocalMonth = utcDateTimeStartToLocal.getMonthValue();
+                int startLocalDay = utcDateTimeStartToLocal.getDayOfMonth();
                 String monthStartString = String.valueOf(startLocalMonth);
                 if (monthStartString.length() == 1) {
                     monthStartString = "0" + monthStartString;
                 }
-                int startLocalDay = utcDateTimeStartToLocal.getDayOfMonth();
                 String dayStartString = String.valueOf(startLocalDay);
                 if (dayStartString.length() == 1) {
                     dayStartString = "0" + dayStartString;
@@ -106,6 +107,11 @@ public class AppointmentDatabase {
 
                 String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " "
                         + hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+                String localStartTimestamp = hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+                String localDate = startLocalYear + "-" + monthStartString + "-" + dayStartString;
+
 
 
                 LocalDateTime utcDateTimeToStringEnd = LocalDateTime.parse(End, formatter);
@@ -142,6 +148,10 @@ public class AppointmentDatabase {
                 String utcEndTimeToLocal = Integer.toString(endLocalYear) + "-" + monthEndString + "-" + dayEndString + " "
                         + hourEndString + ":" + minuteEndString + ":" + secondEndString;
 
+                String localEndTimeStamp = hourEndString + ":" + minuteEndString + ":" + secondEndString;
+
+
+
                 appointments.setAppointmentId(appointmentId);
                 appointments.setCustomerId(customerId);
                 appointments.setCustomerName(customerName);
@@ -151,6 +161,9 @@ public class AppointmentDatabase {
                 appointments.setContact(Contact);
                 appointments.setApptStart(utcStartTimeToLocal);
                 appointments.setApptEnd(utcEndTimeToLocal);
+                appointments.setLocalStartTimeStamp(localStartTimestamp);
+                appointments.setLocalEndTimeStamp(localEndTimeStamp);
+                appointments.setLocalDate(localDate);
                 allAppointments.add(appointments);
             }
 

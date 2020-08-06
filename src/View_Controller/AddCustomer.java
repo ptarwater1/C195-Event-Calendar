@@ -60,16 +60,15 @@ public class AddCustomer implements Initializable {
         int addressId = 1;
         int custId = customerId;
         int customerCity = addCustCity.getSelectionModel().getSelectedIndex() + 1;
-        String customerCityChoice = addCustCity.getSelectionModel().getSelectedItem();
 
         customerId = ++customerId;
         String customerName = addCustName.getText();
         String customerAddress = addCustAddress.getText();
-        String customerCityChoiceValue = customerCityChoice;
+        String customerCityChoiceValue = addCustCity.getSelectionModel().getSelectedItem(); //customerCityChoice;
         String customerCountry = addCustCountry.getText();
         String customerPhone = addCustPhone.getText();
 
-        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(customerCityChoiceValue) && verifyPhone(customerPhone)) {
+        if ((verifyName(customerName) && verifyAddress(customerAddress)) && verifyCity(addCustCity) && verifyPhone(customerPhone)) {
 
             try {
 
@@ -173,8 +172,8 @@ public class AddCustomer implements Initializable {
         }
     }
 
-    public boolean verifyCity(String city) {
-        if(city.isEmpty()) {
+    public boolean verifyCity(ComboBox customerCityChoiceValue) {
+        if(customerCityChoiceValue.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText(null);

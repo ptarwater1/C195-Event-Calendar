@@ -19,11 +19,10 @@ import java.net.URL;
 import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
+
 
 
 public class AddAppointment implements Initializable {
@@ -72,16 +71,14 @@ public class AddAppointment implements Initializable {
 
     public static int customerId;
     public static int userId;
-    public static String startDateNTime;
-    public String currentOffset;
 
 
 
-    //Combobox data: only allowed to choose times within business hours. Appts can start at 8AM and must end by 5PM.
+    //Appointments cannot start before 8AM and must end by 5PM.
     ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
     ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
-    ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
+    ObservableList<String> apptStartData = FXCollections.observableArrayList("05:00:00","06:00:00","07:00:00","08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
+    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00");
     ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
 
     @Override
@@ -151,7 +148,7 @@ public class AddAppointment implements Initializable {
         String startDateNTime = apptDate + " " + apptStart;
         String endDateNTime = apptDate + " " + apptEnd;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s");
         LocalDateTime currentTime = java.time.LocalDateTime.now();
         ZoneId localZoneId = ZoneId.systemDefault();
         ZoneId utcZoneId = ZoneId.of("Z");
@@ -163,12 +160,37 @@ public class AddAppointment implements Initializable {
         int startUTCYear = localDateTimeStartToUTC.getYear();
         int startUTCMonth = localDateTimeStartToUTC.getMonthValue();
         int startUTCDay = localDateTimeStartToUTC.getDayOfMonth();
+
         int startUTCHour = localDateTimeStartToUTC.getHour();
+        String hourStartString = String.valueOf(startUTCHour);
+        if (hourStartString.length() == 1) {
+            hourStartString = "0" + hourStartString;
+        }
+
         int startUTCMinute = localDateTimeStartToUTC.getMinute();
+        String minuteStartString = String.valueOf(startUTCMinute);
+        if (minuteStartString.length() == 1) {
+                minuteStartString = "0" + minuteStartString;
+        }
+
         int startUTCSecond = localDateTimeStartToUTC.getSecond();
+            String secondStartString = String.valueOf(startUTCSecond);
+            if (secondStartString.length() == 1) {
+                secondStartString = "0" + secondStartString;
+            }
+
 
         String localStartTimeToUtc = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
                 + Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCSecond);
+
+        System.out.println("localStartTime To Utc " + localStartTimeToUtc);
+
+        String utcTimeStampStart = hourStartString + ":" + minuteStartString + ":" + secondStartString;
+
+        System.out.println("utcTimeStampStart " + utcTimeStampStart);
+
+
+
 
         LocalDateTime localDateTimeToStringEnd = LocalDateTime.parse(endDateNTime, formatter);
         ZonedDateTime dateTimeEndLocal = ZonedDateTime.of(localDateTimeToStringEnd, localZoneId);
@@ -184,11 +206,10 @@ public class AddAppointment implements Initializable {
         String localEndTimeToUtc = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
                 + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
+       /* LocalDateTime now = LocalDateTime.now();
+        ZoneId zone = ZoneId.of(ZoneId.systemDefault().getId());
+        ZoneOffset localOffset = zone.getRules().getOffset(now);*/
 
-
-
-
-        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
 
         try {
 
@@ -221,19 +242,64 @@ public class AddAppointment implements Initializable {
         Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
         stage.setScene(new Scene((Parent) scene));
         stage.close();
-        }
+
 
     }
 
+
+    public boolean checkOutsideBusinessHoursStart(String checkTime, ZoneOffset localOffset){
+        try{
+            Statement statement = Database.getConnection().createStatement();
+            String businessHoursQueryStart = "";
+
+            ResultSet businessHoursCheckStart = statement.executeQuery(businessHoursQueryStart);
+
+            if (businessHoursCheckStart.next()){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("Appointment cannot start before 8AM.");
+                alert.showAndWait();
+                return false;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return true;
+    }
+
+
+    public boolean checkOutsideBusinessHoursEnd(String checkTime, ZoneOffset localOffset){
+        try{
+            Statement statement = Database.getConnection().createStatement();
+            String businessHoursQueryStart = "";
+            ResultSet businessHoursCheckStart = statement.executeQuery(businessHoursQueryStart);
+
+            if (businessHoursCheckStart.next()){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("Appointment cannot start before 8AM.");
+                alert.showAndWait();
+                return false;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return true;
+    }
+
+
     public boolean checkOverlap(String checkStart, String checkEnd) {
-//Type 2 of exception control (try catch)
+        //Type 2 of exception control (try catch)
         try {
             Statement statement = Database.getConnection().createStatement();
             String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {
-
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Appointment Time Error");
                 alert.setHeaderText("Invalid time format.");
@@ -242,7 +308,7 @@ public class AddAppointment implements Initializable {
                 return false;
             }
         } catch (SQLException e) {
-            System.out.println("Error " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return true;
 
