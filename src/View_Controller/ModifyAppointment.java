@@ -71,6 +71,16 @@ public class ModifyAppointment  implements Initializable {
     public static int customerId;
     public static int apptId;
     public static int userId;
+    int apptIndexMod = AppointmentsTable.getApptIndexToMod();
+    private Appointments appointment;
+
+    ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
+    ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
+    ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
+    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
+    ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
+    ObservableList<Integer> appointmentIdData = FXCollections.observableArrayList(getAppointmentIdData());
+
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
@@ -88,9 +98,6 @@ public class ModifyAppointment  implements Initializable {
         populateCustomers.populateCustomerTable();
         custTableId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         custTableName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-
-
-
 
         appointment = AppointmentDatabase.getAllAppointmentsTableList().get(apptIndexMod);
 
@@ -114,9 +121,8 @@ public class ModifyAppointment  implements Initializable {
         modifyApptDate.setValue(dateValue);
         modifyApptStart.setValue(startTime);
         modifyApptEnd.setValue(endTime);
-
-
     }
+
     @FXML
     void modifyApptSaveEvent(ActionEvent event) throws IOException, DateTimeParseException {
 
@@ -170,20 +176,8 @@ public class ModifyAppointment  implements Initializable {
 
         String localEndTimeStamp = Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
-        LocalDateTime constraintStartTime = LocalDateTime.parse("2020-08-01 08:00:00", formatter);
-        ZonedDateTime constraintStartLocal = ZonedDateTime.of(constraintStartTime, localZoneId);
-        ZonedDateTime constraintLocalToUtcStart = constraintStartLocal.withZoneSameInstant(utcZoneId);
 
-        int constrStartHour = constraintLocalToUtcStart.getHour();
-        int constrStartMinute = constraintLocalToUtcStart.getMinute();
-        int constrStartSecond = constraintLocalToUtcStart.getSecond();
-
-        String constraintSTime = Integer.toString(constrStartHour) + ":" + Integer.toString(constrStartMinute) + Integer.toString(constrStartSecond);
-
-
-
-
-
+            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
             try {
                 Statement statement = Database.getConnection().createStatement();
 
@@ -219,45 +213,7 @@ public class ModifyAppointment  implements Initializable {
             Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
             stage.setScene(new Scene((Parent) scene));
             stage.close();
-
-    }
-
-
-
-    Appointments apptSelection;
-    int apptIndexMod = AppointmentsTable.getApptIndexToMod();
-    private Appointments appointment;
-
-
-    ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
-    ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
-    ObservableList<String> apptStartData = FXCollections.observableArrayList("05:00:00","06:00:00","07:00:00","08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
-    ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
-    ObservableList<Integer> appointmentIdData = FXCollections.observableArrayList(getAppointmentIdData());
-
-
-    public boolean checkOutsideBusinessHoursStart(String checkTime, LocalDate apptDate){
-        try{
-            Statement statement = Database.getConnection().createStatement();
-            String businessHoursQueryStart = "";
-            System.out.println(businessHoursQueryStart);
-
-            ResultSet businessHoursCheckStart = statement.executeQuery(businessHoursQueryStart);
-
-            if (businessHoursCheckStart.next()){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Appointment Time Error");
-                alert.setHeaderText("Invalid time format.");
-                alert.setContentText("Appointment cannot start before 8AM.");
-                alert.showAndWait();
-                return false;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
         }
-        return true;
     }
 
 
@@ -265,7 +221,7 @@ public class ModifyAppointment  implements Initializable {
 
         try {
             Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end)";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {
@@ -283,42 +239,6 @@ public class ModifyAppointment  implements Initializable {
         return true;
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private List<Integer> getCustomerIdData() {
 
@@ -361,8 +281,5 @@ public class ModifyAppointment  implements Initializable {
 
         return choices;
     }
-
-
-
 
 }

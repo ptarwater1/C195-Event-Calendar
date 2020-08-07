@@ -145,11 +145,8 @@ public class AppointmentsTable implements Initializable {
             stage.show();
 
         } if(tabAll.isSelected()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Invalid tab selection.");
-            alert.setHeaderText("The all tab is used for display purposes only.");
-            alert.setContentText("Please use the weekly or monthly tab to modify appointments.");
-            alert.showAndWait();
+            Appointments apptToModify = tableViewAll.getSelectionModel().getSelectedItem();
+            apptIndexMod = AppointmentDatabase.getAllAppointmentsTableList().indexOf(apptToModify);
 
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
@@ -182,6 +179,7 @@ public class AppointmentsTable implements Initializable {
         }
             if(tabMonthly.isSelected()) {
                 apptSelection = tableViewMonthly.getSelectionModel().getSelectedItem();
+                AppointmentDatabase.deleteWeeklyViewAppt(apptSelection.getAppointmentId());
                 AppointmentDatabase.deleteMonthlyViewAppt(apptSelection.getAppointmentId());
                 AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
 
@@ -192,6 +190,8 @@ public class AppointmentsTable implements Initializable {
         }
             if(tabAll.isSelected()) {
                 apptSelection = tableViewAll.getSelectionModel().getSelectedItem();
+                AppointmentDatabase.deleteWeeklyViewAppt(apptSelection.getAppointmentId());
+                AppointmentDatabase.deleteMonthlyViewAppt(apptSelection.getAppointmentId());
                 AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
 
                 Stage stage = new Stage();

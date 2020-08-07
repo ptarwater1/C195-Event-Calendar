@@ -75,10 +75,11 @@ public class AddAppointment implements Initializable {
 
 
     //Appointments cannot start before 8AM and must end by 5PM.
+    ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
+    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
+
     ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
     ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
-    ObservableList<String> apptStartData = FXCollections.observableArrayList("05:00:00","06:00:00","07:00:00","08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00");
     ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
 
     @Override
@@ -210,7 +211,7 @@ public class AddAppointment implements Initializable {
         ZoneId zone = ZoneId.of(ZoneId.systemDefault().getId());
         ZoneOffset localOffset = zone.getRules().getOffset(now);*/
 
-
+        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
         try {
 
             Statement statement2 = Database.getConnection().createStatement();
@@ -242,9 +243,33 @@ public class AddAppointment implements Initializable {
         Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
         stage.setScene(new Scene((Parent) scene));
         stage.close();
-
+        }
 
     }
+
+
+    public boolean checkOverlap(String checkStart, String checkEnd) {
+        //Type 2 of exception control (try catch)
+        try {
+            Statement statement = Database.getConnection().createStatement();
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
+            ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
+
+            if (timeOverlapCheck.next()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("An appointment already exists during this time frame.");
+                alert.showAndWait();
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return true;
+
+    }
+
 
 
     public boolean checkOutsideBusinessHoursStart(String checkTime, ZoneOffset localOffset){
@@ -292,26 +317,6 @@ public class AddAppointment implements Initializable {
     }
 
 
-    public boolean checkOverlap(String checkStart, String checkEnd) {
-        //Type 2 of exception control (try catch)
-        try {
-            Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
-            ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
-            if (timeOverlapCheck.next()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Appointment Time Error");
-                alert.setHeaderText("Invalid time format.");
-                alert.setContentText("An appointment already exists during this time frame.");
-                alert.showAndWait();
-                return false;
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return true;
-
-    }
 
 }
