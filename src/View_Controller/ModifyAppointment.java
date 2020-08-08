@@ -68,6 +68,7 @@ public class ModifyAppointment  implements Initializable {
         stage.close();
     }
 
+    private Appointments selectedAppointment;
     public static int customerId;
     public static int apptId;
     public static int userId;
@@ -128,6 +129,7 @@ public class ModifyAppointment  implements Initializable {
 
         apptId = modifyApptId.getSelectionModel().getSelectedItem();
         customerId = modifyApptCustId.getSelectionModel().getSelectedItem();
+        userId = appointment.getUserId();
         String apptTitle = modifyApptTitle.getText();
         String apptType = modifyApptType.getSelectionModel().getSelectedItem();
         String apptLocation = modifyApptLocation.getSelectionModel().getSelectedItem();
@@ -176,6 +178,7 @@ public class ModifyAppointment  implements Initializable {
 
         String localEndTimeStamp = Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
+        System.out.println(userId);
 
             if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
             try {
@@ -221,7 +224,7 @@ public class ModifyAppointment  implements Initializable {
 
         try {
             Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end)";
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + userId + "'";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {
