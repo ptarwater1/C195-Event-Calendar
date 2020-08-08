@@ -71,14 +71,14 @@ public class ModifyAppointment  implements Initializable {
     private Appointments selectedAppointment;
     public static int customerId;
     public static int apptId;
-    public static int userId;
+    //public static int userId;
     int apptIndexMod = AppointmentsTable.getApptIndexToMod();
     private Appointments appointment;
 
     ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
     ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
     ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
+    ObservableList<String> apptEndData = FXCollections.observableArrayList("08:59:59", "09:59:59", "10:59:59", "11:59:59", "12:59:59", "13:59:59", "14:59:59", "15:59:59", "16:59:59");
     ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
     ObservableList<Integer> appointmentIdData = FXCollections.observableArrayList(getAppointmentIdData());
 
@@ -111,6 +111,7 @@ public class ModifyAppointment  implements Initializable {
         String startTime = appointment.getLocalStartTimeStamp();
         String endTime = appointment.getLocalEndTimeStamp();
         LocalDate dateValue = LocalDate.parse(appointment.getLocalDate());
+        String consultant = appointment.getCreatedBy();
 
 
         modifyApptCustId.getSelectionModel().select(customerId);
@@ -129,7 +130,7 @@ public class ModifyAppointment  implements Initializable {
 
         apptId = modifyApptId.getSelectionModel().getSelectedItem();
         customerId = modifyApptCustId.getSelectionModel().getSelectedItem();
-        userId = appointment.getUserId();
+        Integer userId = appointment.getUserId();
         String apptTitle = modifyApptTitle.getText();
         String apptType = modifyApptType.getSelectionModel().getSelectedItem();
         String apptLocation = modifyApptLocation.getSelectionModel().getSelectedItem();
@@ -137,6 +138,7 @@ public class ModifyAppointment  implements Initializable {
         String apptStart = modifyApptStart.getSelectionModel().getSelectedItem();
         String apptEnd = modifyApptEnd.getSelectionModel().getSelectedItem();
         LocalDate apptDate = modifyApptDate.getValue();
+        String createdBy = appointment.getCreatedBy();
 
         String startDateNTime = apptDate + " " + apptStart;
         String endDateNTime = apptDate + " " + apptEnd;
@@ -160,7 +162,7 @@ public class ModifyAppointment  implements Initializable {
         String localStartTimeToUtc = startUTCYear + "-" + startUTCMonth + "-" + startUTCDay + " "
                 + startUTCHour + ":" + startUTCMinute + ":" + startUTCSecond;
 
-        String localStartTimeStamp = Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCSecond);
+        String localStartTimeStamp = startUTCHour + ":" + startUTCMinute + ":" + startUTCSecond;
 
         LocalDateTime localDateTimeToStringEnd = LocalDateTime.parse(endDateNTime, formatter);
         ZonedDateTime dateTimeEndLocal = ZonedDateTime.of(localDateTimeToStringEnd, localZoneId);
@@ -173,18 +175,25 @@ public class ModifyAppointment  implements Initializable {
         int endUTCMinute = localDateTimeEndToUTC.getMinute();
         int endUTCSecond = localDateTimeEndToUTC.getSecond();
 
-        String localEndTimeToUtc = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
-                + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
+        String localEndTimeToUtc = endUTCYear + "-" + (endUTCMonth) + "-" + (endUTCDay) + " "
+                + endUTCHour + ":" + endUTCMinute + ":" + endUTCSecond;
 
-        String localEndTimeStamp = Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
-        System.out.println(userId);
+        String localEndTimeStamp = endUTCHour + ":" + endUTCMinute + ":" + endUTCSecond;
 
-            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
+
+        /*String localStartTimeToUtcSubOne = startUTCYear + "-" + startUTCMonth + "-" + startUTCDay + " "
+                + (startUTCHour - 1)+ ":" + "59" + ":" + "59";
+
+        String localEndTimeToUtcAddOne = endUTCYear + "-" + (endUTCMonth) + "-" + (endUTCDay) + " "
+                        + (endUTCHour) + ":" + (endUTCMinute) + ":" + (endUTCSecond + 1);*/
+
+
+            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc, createdBy)){
             try {
                 Statement statement = Database.getConnection().createStatement();
 
-                String modifyApptQuery = "UPDATE appointment SET title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + localStartTimeToUtc + "', end ='" + localEndTimeToUtc + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + UserDatabase.getActiveUser().getUsername() + "' WHERE appointmentId = " + apptId;
+                String modifyApptQuery = "UPDATE appointment SET title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + localStartTimeToUtc + "', end ='" + localEndTimeToUtc + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + createdBy + "' WHERE appointmentId = " + apptId;
 
                 int apptExecuteUpdate = statement.executeUpdate(modifyApptQuery);
                 if (apptExecuteUpdate == 1) {
@@ -220,11 +229,13 @@ public class ModifyAppointment  implements Initializable {
     }
 
 
-    public boolean checkOverlap(String checkStart, String checkEnd) {
+    public boolean checkOverlap(String checkStart, String checkEnd, String createdBy) {
+
+
 
         try {
             Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + userId + "'";
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + createdBy + "'";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {

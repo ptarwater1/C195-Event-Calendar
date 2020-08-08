@@ -47,6 +47,9 @@ public class AppointmentsTable implements Initializable {
     private TableColumn<Appointments,String>  monthlyEnd;
 
     @FXML
+    private TableColumn<Appointments,String> monthlyConsultant;
+
+    @FXML
     private Tab tabWeekly;
 
     @FXML
@@ -74,6 +77,9 @@ public class AppointmentsTable implements Initializable {
     private TableColumn<Appointments,String>  weeklyEnd;
 
     @FXML
+    private TableColumn<Appointments,String> weeklyConsultant;
+
+    @FXML
     private Tab tabAll;
 
     @FXML
@@ -99,6 +105,9 @@ public class AppointmentsTable implements Initializable {
 
     @FXML
     private TableColumn<Appointments,String> allEnd;
+
+    @FXML
+    private TableColumn<Appointments,String> allConsultant;
 
     @FXML
     void addApptEvent(ActionEvent event) throws IOException {
@@ -234,6 +243,7 @@ public class AppointmentsTable implements Initializable {
         monthlyType.setCellValueFactory(new PropertyValueFactory<>("type"));
         monthlyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         monthlyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+        monthlyConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
 
 
         tableViewWeekly.getSelectionModel();
@@ -244,6 +254,7 @@ public class AppointmentsTable implements Initializable {
         weeklyType.setCellValueFactory(new PropertyValueFactory<>("type"));
         weeklyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         weeklyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+        weeklyConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
 
         tableViewAll.getSelectionModel();
         allCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -253,6 +264,7 @@ public class AppointmentsTable implements Initializable {
         allType.setCellValueFactory(new PropertyValueFactory<>("type"));
         allStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         allEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+        allConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
     }
 }
 

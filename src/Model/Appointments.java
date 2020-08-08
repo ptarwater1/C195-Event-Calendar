@@ -16,11 +16,12 @@ public class Appointments {
     private String localStartTimeStamp;
     private String localEndTimeStamp;
     private String localDate;
+    private String createdBy;
 
 
    public Appointments() {}
 
-   public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd, String localStartTimeStamp, String localEndTimeStamp, String localDate) {
+   public Appointments(String customerName, int appointmentId, int customerId, int userId, String title, String location, String contact, String type, String apptStart, String apptEnd, String localStartTimeStamp, String localEndTimeStamp, String localDate, String createdBy) {
 
         customerName = this.customerName;
         appointmentId = this.appointmentId;
@@ -35,6 +36,7 @@ public class Appointments {
         localStartTimeStamp = this.localStartTimeStamp;
         localEndTimeStamp = this.localEndTimeStamp;
         localDate = this.localDate;
+        createdBy = this.createdBy;
     }
 
     public Appointments(int appointmentId, int customerId, int userId, String title, String type, String location, String contact, String apptStart, String apptEnd) {
@@ -51,6 +53,7 @@ public class Appointments {
         setLocalStartTimeStamp(localStartTimeStamp);
         setLocalEndTimeStamp(localEndTimeStamp);
         setLocalDate(localDate);
+
 
     }
 
@@ -106,6 +109,10 @@ public class Appointments {
        return localDate;
     }
 
+    public String getCreatedBy(){
+       return createdBy;
+    }
+
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
     }
@@ -158,5 +165,8 @@ public class Appointments {
        this.localDate = localDate;
     }
 
+    public void setCreatedBy(String createdBy) {
+       this.createdBy = createdBy;
+    }
 
 }

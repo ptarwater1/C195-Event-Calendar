@@ -75,9 +75,11 @@ public class AddAppointment implements Initializable {
 
 
     //Appointments cannot start before 8AM and must end by 5PM.
-    ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
+    //ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
+    //ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
 
+    ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
+    ObservableList<String> apptEndData = FXCollections.observableArrayList("08:59:59", "09:59:59", "10:59:59", "11:59:59", "12:59:59", "13:59:59", "14:59:59", "15:59:59", "16:59:59");
     ObservableList<String> apptTypesData = FXCollections.observableArrayList("Interview", "Review", "Presentation", "Other");
     ObservableList<String> apptLocationsData = FXCollections.observableArrayList("Phoenix", "New York", "London");
     ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
@@ -184,13 +186,8 @@ public class AddAppointment implements Initializable {
         String localStartTimeToUtc = Integer.toString(startUTCYear) + "-" + Integer.toString(startUTCMonth) + "-" + Integer.toString(startUTCDay) + " "
                 + Integer.toString(startUTCHour) + ":" + Integer.toString(startUTCMinute) + ":" + Integer.toString(startUTCSecond);
 
-        System.out.println("localStartTime To Utc " + localStartTimeToUtc);
 
         String utcTimeStampStart = hourStartString + ":" + minuteStartString + ":" + secondStartString;
-
-        System.out.println("utcTimeStampStart " + utcTimeStampStart);
-
-
 
 
         LocalDateTime localDateTimeToStringEnd = LocalDateTime.parse(endDateNTime, formatter);
@@ -252,7 +249,8 @@ public class AddAppointment implements Initializable {
         //Type 2 of exception control (try catch)
         try {
             Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
+            //String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + UserDatabase.getActiveUser().getUsername() + "'";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {

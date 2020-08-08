@@ -55,7 +55,7 @@ public class AppointmentDatabase {
             for (int apptIdIteration : selectedAppointments) {
 
                 Appointments appointments = new Appointments();
-                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
+                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end, appointment.createdBy FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
                 appointmentsTableData.next();
 
                 int appointmentId = appointmentsTableData.getInt("appointmentId");
@@ -67,6 +67,7 @@ public class AppointmentDatabase {
                 String Contact = appointmentsTableData.getString("contact");
                 String Start = appointmentsTableData.getString("start");
                 String End = appointmentsTableData.getString("end");
+                String consultant = appointmentsTableData.getString("createdBy");
 
 
 
@@ -105,8 +106,7 @@ public class AppointmentDatabase {
                     secondStartString = "0" + secondStartString;
                 }
 
-                String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " "
-                        + hourStartString + ":" + minuteStartString + ":" + secondStartString;
+                String utcStartTimeToLocal = Integer.toString(startLocalYear) + "-" + monthStartString + "-" + dayStartString + " " + hourStartString + ":" + minuteStartString + ":" + secondStartString;
 
                 String localStartTimestamp = hourStartString + ":" + minuteStartString + ":" + secondStartString;
 
@@ -145,8 +145,7 @@ public class AppointmentDatabase {
                     secondEndString = "0" + secondEndString;
                 }
 
-                String utcEndTimeToLocal = Integer.toString(endLocalYear) + "-" + monthEndString + "-" + dayEndString + " "
-                        + hourEndString + ":" + minuteEndString + ":" + secondEndString;
+                String utcEndTimeToLocal = endLocalYear + "-" + monthEndString + "-" + dayEndString + " " + hourEndString + ":" + minuteEndString + ":" + secondEndString;
 
                 String localEndTimeStamp = hourEndString + ":" + minuteEndString + ":" + secondEndString;
 
@@ -164,6 +163,7 @@ public class AppointmentDatabase {
                 appointments.setLocalStartTimeStamp(localStartTimestamp);
                 appointments.setLocalEndTimeStamp(localEndTimeStamp);
                 appointments.setLocalDate(localDate);
+                appointments.setCreatedBy(consultant);
                 allAppointments.add(appointments);
             }
 
@@ -192,7 +192,7 @@ public class AppointmentDatabase {
             for (int apptIdIteration : selectedAppointments) {
 
                 Appointments appointments = new Appointments();
-                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
+                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end, appointment.createdBy FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
                 appointmentsTableData.next();
 
                 int appointmentId = appointmentsTableData.getInt("appointmentId");
@@ -204,6 +204,7 @@ public class AppointmentDatabase {
                 String Contact = appointmentsTableData.getString("contact");
                 String Start = appointmentsTableData.getString("start");
                 String End = appointmentsTableData.getString("end");
+                String consultant = appointmentsTableData.getString("createdBy");
 
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
@@ -280,9 +281,6 @@ public class AppointmentDatabase {
                         + hourEndString + ":" + minuteEndString + ":" + secondEndString;
 
 
-
-
-
                 appointments.setAppointmentId(appointmentId);
                 appointments.setCustomerId(customerId);
                 appointments.setCustomerName(customerName);
@@ -292,6 +290,7 @@ public class AppointmentDatabase {
                 appointments.setContact(Contact);
                 appointments.setApptStart(utcStartTimeToLocal);
                 appointments.setApptEnd(utcEndTimeToLocal);
+                appointments.setCreatedBy(consultant);
                 monthlyAppointments.add(appointments);
 
             }
@@ -322,7 +321,7 @@ public class AppointmentDatabase {
             for (int apptIdIteration : selectedAppointments) {
 
                 Appointments appointments = new Appointments();
-                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
+                ResultSet appointmentsTableData = statement.executeQuery("SELECT customer.customerName, appointmentId, appointment.customerId, userId, title, description, location, contact, type, url, start, end, appointment.createdBy FROM appointment JOIN customer ON customer.customerId = appointment.customerId WHERE appointmentId = " + apptIdIteration);
                 appointmentsTableData.next();
 
 
@@ -335,6 +334,7 @@ public class AppointmentDatabase {
                 String Type = appointmentsTableData.getString("type");
                 String Start = appointmentsTableData.getString("start");
                 String End = appointmentsTableData.getString("end");
+                String consultant = appointmentsTableData.getString("createdBy");
 
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d H:m:s");
@@ -420,6 +420,7 @@ public class AppointmentDatabase {
                 appointments.setContact(Contact);
                 appointments.setApptStart(utcStartTimeToLocal);
                 appointments.setApptEnd(utcEndTimeToLocal);
+                appointments.setCreatedBy(consultant);
                 weeklyAppointments.add(appointments);
                 
             }
