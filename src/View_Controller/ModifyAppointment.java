@@ -60,7 +60,7 @@ public class ModifyAppointment  implements Initializable {
     private TableColumn<Customer, Integer> custTableName;
 
     @FXML
-    private ComboBox<Integer> modifyApptId;
+    private Label apptIdLabel;
 
     @FXML
     void modifyApptBackEvent(ActionEvent event) {
@@ -68,10 +68,9 @@ public class ModifyAppointment  implements Initializable {
         stage.close();
     }
 
-    private Appointments selectedAppointment;
+
     public static int customerId;
     public static int apptId;
-    //public static int userId;
     int apptIndexMod = AppointmentsTable.getApptIndexToMod();
     private Appointments appointment;
 
@@ -80,7 +79,6 @@ public class ModifyAppointment  implements Initializable {
     ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
     ObservableList<String> apptEndData = FXCollections.observableArrayList("08:59:59", "09:59:59", "10:59:59", "11:59:59", "12:59:59", "13:59:59", "14:59:59", "15:59:59", "16:59:59");
     ObservableList<Integer> customerIdData = FXCollections.observableArrayList(getCustomerIdData());
-    ObservableList<Integer> appointmentIdData = FXCollections.observableArrayList(getAppointmentIdData());
 
 
     @Override
@@ -91,7 +89,7 @@ public class ModifyAppointment  implements Initializable {
         modifyApptLocation.setItems(apptLocationsData);
         modifyApptStart.setItems(apptStartData);
         modifyApptEnd.setItems(apptEndData);
-        modifyApptId.setItems(appointmentIdData);
+
 
         CustomerDatabase.getAllCustomersTableList().clear();
         custTableView.setItems(CustomerDatabase.getAllCustomersTableList());
@@ -111,7 +109,7 @@ public class ModifyAppointment  implements Initializable {
         String startTime = appointment.getLocalStartTimeStamp();
         String endTime = appointment.getLocalEndTimeStamp();
         LocalDate dateValue = LocalDate.parse(appointment.getLocalDate());
-        String consultant = appointment.getCreatedBy();
+
 
 
         modifyApptCustId.getSelectionModel().select(customerId);
@@ -119,7 +117,7 @@ public class ModifyAppointment  implements Initializable {
         modifyApptType.getSelectionModel().select(type);
         modifyApptLocation.getSelectionModel().select(location);
         modifyApptContact.setText(contact);
-        modifyApptId.getSelectionModel().select(appointmentId);
+        apptIdLabel.setText(Integer.toString(appointmentId));
         modifyApptDate.setValue(dateValue);
         modifyApptStart.setValue(startTime);
         modifyApptEnd.setValue(endTime);
@@ -128,7 +126,8 @@ public class ModifyAppointment  implements Initializable {
     @FXML
     void modifyApptSaveEvent(ActionEvent event) throws IOException, DateTimeParseException {
 
-        apptId = modifyApptId.getSelectionModel().getSelectedItem();
+        apptId = appointment.getAppointmentId();
+
         customerId = modifyApptCustId.getSelectionModel().getSelectedItem();
         Integer userId = appointment.getUserId();
         String apptTitle = modifyApptTitle.getText();
@@ -189,11 +188,10 @@ public class ModifyAppointment  implements Initializable {
                         + (endUTCHour) + ":" + (endUTCMinute) + ":" + (endUTCSecond + 1);*/
 
 
-            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc, createdBy)){
+            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc, createdBy) && verifyType(modifyApptType)){
             try {
                 Statement statement = Database.getConnection().createStatement();
-
-                String modifyApptQuery = "UPDATE appointment SET title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + localStartTimeToUtc + "', end ='" + localEndTimeToUtc + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + createdBy + "' WHERE appointmentId = " + apptId;
+                String modifyApptQuery = "UPDATE appointment SET customerId='" + customerId + "', title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + localStartTimeToUtc + "', end ='" + localEndTimeToUtc + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + createdBy + "' WHERE appointmentId = " + apptId;
 
                 int apptExecuteUpdate = statement.executeUpdate(modifyApptQuery);
                 if (apptExecuteUpdate == 1) {
@@ -235,7 +233,7 @@ public class ModifyAppointment  implements Initializable {
 
         try {
             Statement statement = Database.getConnection().createStatement();
-            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + createdBy + "'";
+            String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + createdBy + "' AND appointmentId<>'" + apptId +"'";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
             if (timeOverlapCheck.next()) {
@@ -252,6 +250,19 @@ public class ModifyAppointment  implements Initializable {
         }
         return true;
 
+    }
+
+    public boolean verifyType(ComboBox modifyApptType) {
+        if(modifyApptType.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An appointment type must be selected.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private List<Integer> getCustomerIdData() {

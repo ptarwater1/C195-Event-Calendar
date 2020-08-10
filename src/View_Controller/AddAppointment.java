@@ -75,8 +75,6 @@ public class AddAppointment implements Initializable {
 
 
     //Appointments cannot start before 8AM and must end by 5PM.
-    //ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
-    //ObservableList<String> apptEndData = FXCollections.observableArrayList("09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00");
 
     ObservableList<String> apptStartData = FXCollections.observableArrayList("08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00");
     ObservableList<String> apptEndData = FXCollections.observableArrayList("08:59:59", "09:59:59", "10:59:59", "11:59:59", "12:59:59", "13:59:59", "14:59:59", "15:59:59", "16:59:59");
@@ -204,11 +202,8 @@ public class AddAppointment implements Initializable {
         String localEndTimeToUtc = Integer.toString(endUTCYear) + "-" + Integer.toString(endUTCMonth) + "-" + Integer.toString(endUTCDay) + " "
                 + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
-       /* LocalDateTime now = LocalDateTime.now();
-        ZoneId zone = ZoneId.of(ZoneId.systemDefault().getId());
-        ZoneOffset localOffset = zone.getRules().getOffset(now);*/
 
-        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc)){
+        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc) && verifyType(addApptType)){
         try {
 
             Statement statement2 = Database.getConnection().createStatement();
@@ -249,7 +244,6 @@ public class AddAppointment implements Initializable {
         //Type 2 of exception control (try catch)
         try {
             Statement statement = Database.getConnection().createStatement();
-            //String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' > start AND '" + checkEnd + "' < end)";
             String timeCheckQuery = "SELECT * FROM appointment WHERE ('" + checkStart + "' BETWEEN start AND end OR '" + checkEnd + "' BETWEEN start AND end OR '" + checkStart + "' < start AND '" + checkEnd + "' > end) AND createdBy='" + UserDatabase.getActiveUser().getUsername() + "'";
             ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
 
@@ -268,53 +262,21 @@ public class AddAppointment implements Initializable {
 
     }
 
-
-
-    public boolean checkOutsideBusinessHoursStart(String checkTime, ZoneOffset localOffset){
-        try{
-            Statement statement = Database.getConnection().createStatement();
-            String businessHoursQueryStart = "";
-
-            ResultSet businessHoursCheckStart = statement.executeQuery(businessHoursQueryStart);
-
-            if (businessHoursCheckStart.next()){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Appointment Time Error");
-                alert.setHeaderText("Invalid time format.");
-                alert.setContentText("Appointment cannot start before 8AM.");
-                alert.showAndWait();
-                return false;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+    public boolean verifyType(ComboBox Type) {
+        if(Type.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An appointment type must be selected.");
+            alert.showAndWait();
+            return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
-
-    public boolean checkOutsideBusinessHoursEnd(String checkTime, ZoneOffset localOffset){
-        try{
-            Statement statement = Database.getConnection().createStatement();
-            String businessHoursQueryStart = "";
-            ResultSet businessHoursCheckStart = statement.executeQuery(businessHoursQueryStart);
-
-            if (businessHoursCheckStart.next()){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Appointment Time Error");
-                alert.setHeaderText("Invalid time format.");
-                alert.setContentText("Appointment cannot start before 8AM.");
-                alert.showAndWait();
-                return false;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return true;
     }
 
 
 
 
-}

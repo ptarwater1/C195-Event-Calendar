@@ -75,7 +75,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="custTableView" layoutX="400.0" layoutY="140.0" prefHeight="334.0" prefWidth="200.0">
+      <TableView fx:id="custTableView" layoutX="400.0" layoutY="146.0" prefHeight="334.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="custTableId" prefWidth="70.0" text="ID" />
             <TableColumn fx:id="custTableName" prefWidth="129.0" text="Name" />
@@ -91,8 +91,11 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="modifyApptId" layoutX="150.0" layoutY="500.0" prefHeight="25.0" prefWidth="100.0" />
-      <Label layoutX="30.0" layoutY="70.0" prefHeight="25.0" prefWidth="214.0" text="Do not change Appt Id or Customer Id" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="550.0" prefHeight="25.0" prefWidth="200.0" text="Business Hours: 8AM to 5PM" />
+      <Label fx:id="apptIdLabel" layoutX="150.0" layoutY="500.0" prefHeight="25.0" prefWidth="90.0" textFill="#5b5b5b">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
