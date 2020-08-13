@@ -130,7 +130,6 @@ public class AppointmentsTable implements Initializable {
 
     private Appointments apptSelection;
 
-    //The all tab is used only to display all appointments and should not be used to modify or delete appointments.
     @FXML
     void modifyApptEvent(ActionEvent event) throws IOException {
         if(tabWeekly.isSelected()) {
@@ -158,10 +157,10 @@ public class AppointmentsTable implements Initializable {
             apptIndexMod = AppointmentDatabase.getAllAppointmentsTableList().indexOf(apptToModify);
 
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyAppointment.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.close();
+            stage.show();
 
         }
     }
@@ -203,11 +202,10 @@ public class AppointmentsTable implements Initializable {
                 AppointmentDatabase.deleteMonthlyViewAppt(apptSelection.getAppointmentId());
                 AppointmentDatabase.deleteAllViewAppt(apptSelection.getAppointmentId());
 
-                Stage stage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.close();
+                Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+                Object scene = FXMLLoader.load(getClass().getResource("/View_Controller/AppointmentsTable.fxml"));
+                stage.setScene(new Scene((Parent) scene));
+                stage.show();
             }
 
     }
@@ -225,6 +223,11 @@ public class AppointmentsTable implements Initializable {
         AppointmentDatabase.getAllAppointmentsTableList().clear();
         AppointmentDatabase.getMonthlyAppointmentsTableList().clear();
         AppointmentDatabase.getWeeklyAppointmentsTableList().clear();
+        monthlyStart.setSortType(TableColumn.SortType.ASCENDING);
+        weeklyStart.setSortType(TableColumn.SortType.ASCENDING);
+        allStart.setSortType(TableColumn.SortType.ASCENDING);
+
+
         tableViewMonthly.setItems(AppointmentDatabase.getMonthlyAppointmentsTableList());
         tableViewWeekly.setItems(AppointmentDatabase.getWeeklyAppointmentsTableList());
         tableViewAll.setItems(AppointmentDatabase.getAllAppointmentsTableList());
@@ -244,6 +247,7 @@ public class AppointmentsTable implements Initializable {
         monthlyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         monthlyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
         monthlyConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+        tableViewMonthly.getSortOrder().add(monthlyStart);
 
 
         tableViewWeekly.getSelectionModel();
@@ -255,6 +259,7 @@ public class AppointmentsTable implements Initializable {
         weeklyStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         weeklyEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
         weeklyConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+        tableViewWeekly.getSortOrder().add(weeklyStart);
 
         tableViewAll.getSelectionModel();
         allCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -265,6 +270,32 @@ public class AppointmentsTable implements Initializable {
         allStart.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         allEnd.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
         allConsultant.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+        tableViewAll.getSortOrder().add(allStart);
+
+        allCustomerName.setSortable(false);
+        allTitle.setSortable(false);
+        allLocation.setSortable(false);
+        allContact.setSortable(false);
+        allType.setSortable(false);
+        allEnd.setSortable(false);
+        allConsultant.setSortable(false);
+
+        weeklyCustomerName.setSortable(false);
+        weeklyTitle.setSortable(false);
+        weeklyLocation.setSortable(false);
+        weeklyContact.setSortable(false);
+        weeklyType.setSortable(false);
+        weeklyEnd.setSortable(false);
+        weeklyConsultant.setSortable(false);
+
+        monthlyCustomerName.setSortable(false);
+        monthlyTitle.setSortable(false);
+        monthlyLocation.setSortable(false);
+        monthlyContact.setSortable(false);
+        monthlyType.setSortable(false);
+        monthlyEnd.setSortable(false);
+        monthlyConsultant.setSortable(false);
+
     }
 }
 

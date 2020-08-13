@@ -188,7 +188,7 @@ public class ModifyAppointment  implements Initializable {
                         + (endUTCHour) + ":" + (endUTCMinute) + ":" + (endUTCSecond + 1);*/
 
 
-            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc, createdBy) && verifyType(modifyApptType)){
+            if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc, createdBy) && verifyType(modifyApptType) && checkFuture(localStartTimeToUtc)){
             try {
                 Statement statement = Database.getConnection().createStatement();
                 String modifyApptQuery = "UPDATE appointment SET customerId='" + customerId + "', title ='" + apptTitle + "', location ='" + apptLocation + "', contact ='" + apptContact + "', type ='" + apptType + "', start ='" + localStartTimeToUtc + "', end ='" + localEndTimeToUtc + "', lastUpdate ='" + currentTime + "', lastUpdateBy ='" + createdBy + "' WHERE appointmentId = " + apptId;
@@ -264,6 +264,31 @@ public class ModifyAppointment  implements Initializable {
             return true;
         }
     }
+
+    public boolean checkFuture(String checkStart){
+
+        try {
+            Statement statement = Database.getConnection().createStatement();
+            String timeCheckQuery = "SELECT * FROM appointment WHERE '" + checkStart + "' < NOW()";
+            ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
+
+            if (timeOverlapCheck.next()) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("Cannot change an appointment to take place in the past.");
+                alert.showAndWait();
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error " + e.getMessage());
+        }
+        return true;
+
+
+    }
+
 
     private List<Integer> getCustomerIdData() {
 

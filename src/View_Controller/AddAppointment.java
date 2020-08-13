@@ -203,7 +203,7 @@ public class AddAppointment implements Initializable {
                 + Integer.toString(endUTCHour) + ":" + Integer.toString(endUTCMinute) + ":" + Integer.toString(endUTCSecond);
 
 
-        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc) && verifyType(addApptType)){
+        if(checkOverlap(localStartTimeToUtc, localEndTimeToUtc) && verifyType(addApptType) && checkFuture(localStartTimeToUtc)){
         try {
 
             Statement statement2 = Database.getConnection().createStatement();
@@ -273,6 +273,30 @@ public class AddAppointment implements Initializable {
         } else {
             return true;
         }
+    }
+
+    public boolean checkFuture(String checkStart){
+
+        try {
+            Statement statement = Database.getConnection().createStatement();
+            String timeCheckQuery = "SELECT * FROM appointment WHERE '" + checkStart + "' < NOW()";
+            ResultSet timeOverlapCheck = statement.executeQuery(timeCheckQuery);
+
+            if (timeOverlapCheck.next()) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment Time Error");
+                alert.setHeaderText("Invalid time format.");
+                alert.setContentText("Cannot add an appointment in the past.");
+                alert.showAndWait();
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error " + e.getMessage());
+        }
+        return true;
+
+
     }
 
     }
